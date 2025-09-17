@@ -1,0 +1,414 @@
+---
+// index.astro – PLS EDV (Philipp Leser)
+import Layout from '../layouts/Layout.astro';
+
+const site = {
+  name: "PLS EDV – Philipp Leser",
+  email: "pl@pls-edv.de",
+  phone: "+49 4183 7979004",
+  url: "https://www.pls-edv.de"
+};
+
+// 3 neueste Projekte aus Markdown
+const latestProjects = (await Astro.glob('./projekte/*.md'))
+  .sort((a, b) => +new Date(b.frontmatter?.pubDate ?? 0) - +new Date(a.frontmatter?.pubDate ?? 0))
+  .slice(0, 3);
+---
+
+<Layout
+  pageTitle="Webdesign Jesteburg | PLS EDV"
+  description="Webdesign in Jesteburg & Nordheide. Ihre WordPress Agentur für Harburg & Hamburg Süd. Divi Webdesign, schnelle Ladezeiten und barrierearme Umsetzung."
+  ogImage="/images/projekte/webdesign-jesteburg.jpg"
+  type="article"
+  publishedTime="2025-09-16"
+  modifiedTime="2025-09-16"
+  keywords={[
+    'Webdesign Jesteburg',
+    'WordPress Agentur Harburg',
+    'Homepage erstellen lassen Hamburg Süd',
+    'Divi Webdesigner Nordheide'
+  ]}
+>
+
+<!-- Hero -->
+<section
+  class="relative isolate text-white bg-cover bg-[position:50%_40%]
+         flex items-center
+         min-h-[52svh] md:min-h-[75vh]
+         [@media(orientation:portrait)]:min-h-[45svh]
+         [@media(orientation:landscape)]:min-h-[60svh]"
+  style="background-image: url('/images/plsedvhome.jpg');"
+>
+  <div class="absolute inset-0 pointer-events-none z-0 bg-black/70 md:bg-black/60"></div>
+
+  <div class="relative z-10 mx-auto w-[75vw] py-12 md:py-24 text-center md:text-left">
+    <h2 class="text-xl lg:text-2xl text-highlight">Webdesign Jesteburg & Nordheide</h2>
+    <h1 class="text-4xl lg:text-6xl font-bold py-3 md:py-4 font-display tracking-wider">
+      Philipp Leser – PLS EDV
+    </h1>
+    <p class="max-w-3xl text-lg md:text-xl text-white/90 mx-auto md:mx-0">
+      Moderne, performante Websites mit WordPress, Astro &amp; Tailwind. Als
+      <a href="/divi-webdesigner-nordheide" class="underline hover:no-underline">Divi Webdesigner in der Nordheide</a>
+      und Teil Ihrer
+      <a href="/wordpress-agentur-harburg" class="underline hover:no-underline">WordPress Agentur für Harburg</a>
+      begleite ich Unternehmen von Konzept bis Launch – barrierearm, schnell und suchmaschinenfreundlich.
+    </p>
+    <div class="mt-8 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center md:justify-start">
+      <a href="#kontakt" class="inline-block rounded bg-white px-6 py-3 text-ink hover:bg-gray-100" aria-label="Projekt anfragen – Webdesign Jesteburg">
+        Projekt anfragen
+      </a>
+      <a href="#projekte" class="inline-block rounded border border-white px-6 py-3 hover:bg-white/10" aria-label="Projekte ansehen von PLS EDV">
+        Projekte ansehen
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Intro / Über mich -->
+
+
+<section class="w-full py-16 md:py-24 bg-ink2 text-white">
+  <div class="flex flex-col lg:flex-row mx-auto w-[75vw] gap-10 items-start">
+    
+    <!-- Bild: mobil oben, Desktop rechts -->
+    <div class="lg:w-5/12 order-1 lg:order-2">
+      <div class="rounded-lg shadow-lg overflow-hidden">
+        <img src="/images/philipp-portrait.jpg"
+             alt="Philipp Leser – Webdesign Jesteburg & Divi Webdesigner Nordheide"
+             class="w-full h-full object-cover">
+      </div>
+    </div>
+
+    <!-- Text: mobil unten, Desktop links -->
+    <div class="lg:w-7/12 order-2 lg:order-1">
+      <h2 class="text-2xl text-highlight">Über mich</h2>
+      <h3 class="text-2xl lg:text-4xl font-bold py-4 font-display tracking-wider">Strategie trifft Handwerk</h3>
+      <p class="text-white/90 leading-relaxed">
+        Seit 2001 entwickle ich Websites und Frontends mit Fokus auf Performance, Barrierearmut und skalierbare Komponenten.
+        Wenn Sie eine <strong>Homepage erstellen lassen in Hamburg Süd</strong> möchten, erhalten Sie eine Lösung, die
+        technisch sauber, wartungsfreundlich und messbar schnell ist.
+      </p>
+      <p class="text-white/90 leading-relaxed mt-6">
+        Schwerpunkt: <strong>WordPress-Frontend</strong> – individuelle Themes, Block-Editor/Gutenberg und
+        <a href="/divi-webdesigner-nordheide" class="underline hover:no-underline">Divi</a>.
+        Ergänzend setze ich auf <strong>Tailwind&nbsp;CSS</strong>, <strong>Astro</strong>, <strong>Node.js</strong> und – wo sinnvoll – <strong>Bootstrap</strong>.
+      </p>
+      <p class="text-white/90 leading-relaxed mt-6">
+        2014–2020 war ich Dozent an der Macromedia Akademie Hamburg. Heute berate ich Teams und Unternehmen in der
+        Nordheide, <a href="/wordpress-agentur-harburg" class="underline hover:no-underline">Harburg</a> und
+        <a href="/homepage-erstellen-lassen-hamburg-sued" class="underline hover:no-underline">Hamburg Süd</a>.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-2">
+        <span class="rounded bg-white/10 px-3 py-1 text-sm">WordPress</span>
+        <span class="rounded bg-white/10 px-3 py-1 text-sm">Divi</span>
+        <span class="rounded bg-white/10 px-3 py-1 text-sm">Tailwind CSS</span>
+        <span class="rounded bg-white/10 px-3 py-1 text-sm">Astro</span>
+        <span class="rounded bg-white/10 px-3 py-1 text-sm">JavaScript</span>
+        <span class="rounded bg-white/10 px-3 py-1 text-sm">PHP</span>
+        <span class="rounded bg-white/10 px-3 py-1 text-sm">Core Web Vitals</span>
+        <span class="rounded bg-white/10 px-3 py-1 text-sm">A11y</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Leistungen -->
+<section class="w-full py-16 md:py-24 bg-black text-white">
+  <div class="mx-auto w-[75vw]">
+    <h2 class="text-2xl text-highlight">Leistungen</h2>
+    <h3 class="text-2xl  lg:text-4xl font-bold py-4 font-display tracking-wider">
+      Webdesign & WordPress in Jesteburg, Harburg & Hamburg Süd
+    </h3>
+
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+        <h4 class="text-xl font-semibold">
+          <a href="/webdesign-jesteburg" class="underline hover:no-underline">Webdesign Jesteburg</a>
+        </h4>
+        <p class="mt-2 text-white/90">
+          Planung, Design & Umsetzung schneller Websites für lokale Unternehmen in der Nordheide.
+        </p>
+        <ul class="mt-3 text-white/80 list-disc list-inside space-y-1">
+          <li>Individuelle Layouts & Komponenten</li>
+          <li>Core Web Vitals & Lighthouse</li>
+          <li>Barrierearme Umsetzung (a11y)</li>
+        </ul>
+      </div>
+
+      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+        <h4 class="text-xl font-semibold">
+          <a href="/wordpress-agentur-harburg" class="underline hover:no-underline">WordPress Agentur Harburg</a>
+        </h4>
+        <p class="mt-2 text-white/90">Theme-Entwicklung, Block-Editor, saubere Strukturen und nachhaltige Workflows.</p>
+        <ul class="mt-3 text-white/80 list-disc list-inside space-y-1">
+          <li>Custom Themes & Child Themes</li>
+          <li>SEO-Basis & Schema-Markup</li>
+          <li>Wartung & Relaunch-Begleitung</li>
+        </ul>
+      </div>
+
+      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+        <h4 class="text-xl font-semibold">
+          <a href="/homepage-erstellen-lassen-hamburg-sued" class="underline hover:no-underline">Homepage erstellen lassen – Hamburg Süd</a>
+        </h4>
+        <p class="mt-2 text-white/90">Komplettpaket von der Idee bis zum Livegang – transparent, effizient, messbar.</p>
+        <ul class="mt-3 text-white/80 list-disc list-inside space-y-1">
+          <li>Inhalt & Struktur (IA)</li>
+          <li>Tracking & Analytics bereit</li>
+          <li>Hosting-/Deployment-Setup</li>
+        </ul>
+      </div>
+
+      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+        <h4 class="text-xl font-semibold">
+          <a href="/divi-webdesigner-nordheide" class="underline hover:no-underline">Divi Webdesigner Nordheide</a>
+        </h4>
+        <p class="mt-2 text-white/90">Saubere Divi-Komponenten, konsistente Styleguides, schnelle Divi-Seiten.</p>
+        <ul class="mt-3 text-white/80 list-disc list-inside space-y-1">
+          <li>Designsysteme & Tokens</li>
+          <li>Performance-Optimierung</li>
+          <li>Editor-freundliche Module</li>
+        </ul>
+      </div>
+
+      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+        <h4 class="text-xl font-semibold">Astro & Moderne Stacks</h4>
+        <p class="mt-2 text-white/90">Static/SSR, Islands & Tailwind – extrem schnell und wartungsarm.</p>
+        <ul class="mt-3 text-white/80 list-disc list-inside space-y-1">
+          <li>Content-Modeling & MDX</li>
+          <li>Headless & API-Anbindung</li>
+          <li>CI/CD & Deployment</li>
+        </ul>
+      </div>
+
+      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+        <h4 class="text-xl font-semibold">Schulung & Consulting</h4>
+        <p class="mt-2 text-white/90">Workshops zu WordPress, Divi, Tailwind & Performance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Referenzen / Projekte -->
+<section id="projekte" class="w-full py-16 md:py-24 bg-ink2 text-white">
+  <div class="mx-auto w-[75vw]">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div>
+        <h2 class="text-2xl text-highlight">Projekte</h2>
+        <h3 class="text-2xl  lg:text-4xl font-bold py-4 font-display tracking-wider">
+          Ausgewählte Arbeiten aus Jesteburg, Harburg & Hamburg Süd
+        </h3>
+      </div>
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {latestProjects.map((p) => {
+        const fm = p.frontmatter ?? {};
+        const img = fm.image?.url ?? '/images/placeholder-800x450.jpg';
+        const alt = fm.image?.alt ?? `${fm.title ?? 'Projekt'} – Webdesign Jesteburg / WordPress Harburg`;
+        const desc = fm.description ?? '';
+        return (
+          <article class="min-w-0 rounded-xl overflow-hidden bg-white/5 border border-white/10">
+            <a href={p.url} class="block">
+              <div class="h-44 w-full bg-cover bg-center" style={`background-image:url('${img}')`} aria-label={alt}></div>
+              <div class="p-5">
+                <h4 class="text-xl font-semibold">{fm.title}</h4>
+                {fm.pubDate && (
+                  <p class="mt-1 text-xs text-white/50">
+                    {new Date(fm.pubDate).toLocaleDateString('de-DE')}
+                  </p>
+                )}
+                {desc && <p class="mt-2 text-white/90">{desc}</p>}
+                {Array.isArray(fm.tags) && fm.tags.length > 0 && (
+                  <div class="mt-3 flex flex-wrap gap-2 text-xs text-white/70">
+                    {fm.tags.slice(0, 3).map((t) => (
+                      <span class="rounded bg-white/10 px-2 py-0.5">{t}</span>
+                    ))}
+                  </div>
+                )}
+                <span class="mt-4 inline-block underline hover:no-underline">Mehr erfahren</span>
+              </div>
+            </a>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<!-- Prozess -->
+<section class="w-full py-16 md:py-24 bg-black text-white">
+  <div class="mx-auto w-[75vw]">
+    <h2 class="text-2xl text-highlight">Ablauf</h2>
+    <h3 class="text-2xl  lg:text-4xl font-bold py-4 font-display tracking-wider">So arbeiten wir zusammen</h3>
+
+    <div class="mt-8 grid grid-cols-1 lg:grid-cols-4 sm:grid-cols-2 gap-6">
+      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+        <span class="text-highlight font-semibold">01</span>
+        <h4 class="text-xl font-semibold mt-1">Kickoff</h4>
+        <p class="mt-2 text-white/90">Ziele, Inhalte, Technik & Zeitplan – lokal verankert in Jesteburg & Harburg.</p>
+      </div>
+      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+        <span class="text-highlight font-semibold">02</span>
+        <h4 class="text-xl font-semibold mt-1">Konzept</h4>
+        <p class="mt-2 text-white/90">IA, UX & Komponenten – ideal für Divi und WordPress.</p>
+      </div>
+      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+        <span class="text-highlight font-semibold">03</span>
+        <h4 class="text-xl font-semibold mt-1">Umsetzung</h4>
+        <p class="mt-2 text-white/90">Sauberes HTML/CSS/JS, a11y, Performance & SEO für Hamburg Süd.</p>
+      </div>
+      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+        <span class="text-highlight font-semibold">04</span>
+        <h4 class="text-xl font-semibold mt-1">Launch & Übergabe</h4>
+        <p class="mt-2 text-white/90">Testing, Deployment, Doku & Schulung – nachhaltig und verständlich.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaching -->
+
+
+<section class="w-full py-16 md:py-24 bg-ink2 text-white">
+  <div class="mx-auto w-[75vw] grid grid-cols-1 lg:grid-cols-12 gap-10">
+    
+    <!-- Bild: mobil oben -->
+    <div class="lg:col-span-5 order-1 lg:order-2">
+      <div
+        class="rounded-lg shadow-lg bg-cover bg-center min-h-[450px]"
+        style="background-image:url('/images/teaching.png')"
+        aria-hidden="true"
+        role="presentation">
+      </div>
+    </div>
+
+    <!-- Text: mobil unten -->
+    <div class="lg:col-span-7 order-2 lg:order-1">
+      <h2 class="text-2xl text-highlight">Teaching</h2>
+      <h3 class="text-2xl lg:text-4xl font-bold py-4 font-display tracking-wider">Dozent & Coach</h3>
+      <p class="text-white/90">
+        Wissenstransfer für Teams in der Nordheide, Harburg und Hamburg Süd: WordPress-Workflows,
+        Divi-Best-Practices, Komponenten-Design und Performance-Optimierung.
+      </p>
+      <ul class="mt-6 list-disc list-inside text-white/80 space-y-1">
+        <li>Individuelle Inhouse-Workshops</li>
+        <li>Hands-on Material & Code-Templates</li>
+        <li>Coaching für Entwickler:innen & Redaktionen</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Kontakt -->
+<section id="kontakt" class="w-full py-16 md:py-24 bg-black text-white">
+  <div class="mx-auto w-[75vw] grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+    <div class="md:col-span-2">
+      <h2 class="text-2xl text-highlight">Kontakt</h2>
+      <h3 class="text-2xl lg:text-4xl font-bold py-4 font-display tracking-wider">Lassen Sie uns starten</h3>
+
+      <p class="text-white/90 mb-6">
+        <a href="/homepage-erstellen-lassen-hamburg-sued" class="underline hover:no-underline">Homepage erstellen lassen in Hamburg Süd</a>,
+        <a href="/webdesign-jesteburg" class="underline hover:no-underline">Webdesign in Jesteburg</a> oder
+        <a href="/wordpress-agentur-harburg" class="underline hover:no-underline">WordPress-Projekt in Harburg</a> –
+        ich melde mich kurzfristig mit Vorschlägen & Zeiten.
+      </p>
+
+      <form id="contact" action="https://formspree.io/f/mrbavqla" method="POST"
+            class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <input type="text" name="company" class="hidden" aria-hidden="true" tabindex="-1" autocomplete="off">
+        <input type="text" name="_gotcha" class="hidden" aria-hidden="true" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="_subject" value="Neue Kontaktanfrage über pls-edv.de">
+
+        <div>
+          <label for="name" class="block text-sm text-white/80 mb-1">Name*</label>
+          <input id="name" name="name" required
+                 class="w-full rounded border border-white/20 bg-transparent px-4 py-3 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40"
+                 placeholder="Ihr Name">
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm text-white/80 mb-1">E-Mail*</label>
+          <input id="email" name="email" type="email" required
+                 class="w-full rounded border border-white/20 bg-transparent px-4 py-3 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40"
+                 placeholder="name@domain.de">
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="message" class="block text-sm text-white/80 mb-1">Nachricht*</label>
+          <textarea id="message" name="message" rows="6" required
+                    class="w-full rounded border border-white/20 bg-transparent px-4 py-3 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40"
+                    placeholder="Kurze Beschreibung Ihres Projekts …"></textarea>
+        </div>
+
+        <div class="sm:col-span-2 flex items-start gap-3">
+          <input id="privacy" name="privacy" type="checkbox" required
+                 class="mt-[6px] h-4 w-4 rounded border-white/30 bg-transparent focus:ring-0">
+          <label for="privacy" class="text-sm text-white/80">
+            Ich stimme der Verarbeitung meiner Daten gemäß der
+            <a href="/datenschutz" class="underline hover:no-underline">Datenschutzerklärung</a> zu.*
+          </label>
+        </div>
+
+        <p id="status" class="sm:col-span-2 text-sm text-white/80" aria-live="polite"></p>
+
+        <div class="sm:col-span-2">
+          <button type="submit" class="inline-block rounded bg-white px-6 py-3 text-ink hover:bg-gray-100">
+            Nachricht senden
+          </button>
+          <p class="mt-2 text-xs text-white/60">* Pflichtfelder</p>
+        </div>
+      </form>
+    </div>
+
+    <div class="space-y-4">
+      <h4 class="text-xl font-semibold">Direkter Kontakt</h4>
+      <p class="text-white/90">
+        E-Mail: <a href={`mailto:${site.email}`} class="underline hover:no-underline">{site.email}</a><br>
+        Web: <a href={site.url} class="underline hover:no-underline" target="_blank" rel="noopener">{site.url.replace('https://','')}</a><br/>
+        Telefon: <a href={`tel:${site.phone.replace(/ /g,'')}`} class="underline hover:no-underline">{site.phone}</a>
+      </p>
+      <div class="rounded-lg border border-white/10 bg-white/5 p-4">
+        <p class="text-white/80 text-sm">
+          Rückmeldung i. d. R. innerhalb von 1–2 Werktagen.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Abschluss-CTA -->
+<section class="w-full py-16 md:py-24 bg-ink2 text-white text-center">
+  <div class="mx-auto w-[75vw]">
+    <h3 class="text-2xl lg:text-4xl font-bold font-display tracking-wider">
+      Homepage erstellen lassen in Hamburg Süd – oder Webdesign in Jesteburg?
+    </h3>
+    <p class="mt-4 text-lg text-white/90">
+      Als <a href="/divi-webdesigner-nordheide" class="underline hover:no-underline">Divi Webdesigner der Nordheide</a> und Teil Ihrer
+      <a href="/wordpress-agentur-harburg" class="underline hover:no-underline">WordPress Agentur in Harburg</a>
+      unterstütze ich Sie vom Konzept bis zum Launch.
+    </p>
+    <div class="mt-8">
+      <a href="#kontakt" class="rounded bg-white px-6 py-3 text-ink hover:bg-gray-100">Kontakt aufnehmen</a>
+    </div>
+  </div>
+</section>
+
+<!-- Optional: JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Person",
+  "name":"Philipp Leser",
+  "jobTitle":"Freelance Webentwickler",
+  "email":"mailto:pl@pls-edv.de",
+  "url":"https://www.pls-edv.de",
+  "knowsAbout":["Webdesign Jesteburg","WordPress Agentur Harburg","Homepage erstellen lassen Hamburg Süd","Divi Webdesigner Nordheide","WordPress","Tailwind CSS","Astro","JavaScript","PHP","MySQL","Accessibility","Performance"]
+}
+</script>
+</Layout>

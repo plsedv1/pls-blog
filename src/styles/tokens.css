@@ -1,0 +1,24 @@
+:root {
+  --color-primary: 46 163 242; /* #2ea3f2 */
+  --color-highlight: 255 129 71; /* #ff8147 */
+
+  --color-ink: 34 34 34; /* #222222 */
+  --color-ink2: 31 31 31; /* #1f1f1f */
+  --color-ink3: 23 23 23; /* #171717 */
+  --color-slate3: 51 51 51; /* #333333 */
+  --color-slate4: 32 41 47; /* #20292f */
+  --color-slate5: 15 23 42; /* #0f172a */
+  --color-muted: 150 150 150; /* #969696 */
+  --color-gray6: 102 102 102; /* #666666 */
+
+  --color-overlay: 0 0 0 / 0.32; /* #00000052 */
+  --color-glass: 255 255 255 / 0.72; /* #ffffffb8 */
+}
+
+/* Optional: Dark Mode über .dark auf <html> */
+.dark {
+  --color-primary: 46 163 242;
+  --color-highlight: 247 252 1;
+  /* Beispiel: dunklere Hintergründe */
+  --color-ink: 23 23 23;
+}

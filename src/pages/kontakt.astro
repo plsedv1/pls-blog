@@ -1,0 +1,282 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const site = {
+  name: "PLS EDV – Philipp Leser",
+  email: "pl@pls-edv.de",
+  phone: "+49 4183 7979004",
+  url: "https://www.pls-edv.de"
+};
+---
+
+<Layout pageTitle="pls edv – Philipp Leser | Kontakt">
+<!-- =======================
+     Seite: Kontakt – PLS EDV
+     ======================= -->
+
+<!-- Hero -->
+<section
+    class="relative isolate text-white bg-cover bg-[position:50%_40%]
+           flex items-center
+           min-h-[52svh] md:min-h-[75vh]
+           [@media(orientation:portrait)]:min-h-[45svh]
+           [@media(orientation:landscape)]:min-h-[60vh]"
+    style="background-image: url('/images/plsedvhome.jpg');"
+>
+  <div class="absolute inset-0 pointer-events-none z-0 bg-black/70 md:bg-black/60"></div>
+  <div class="relative z-10 mx-auto w-[75vw] py-12 md:py-20 text-center md:text-left">
+    <h2 class="text-xl md:text-2xl text-highlight">Kontakt</h2>
+    <h1 class="text-2xl lg:text-6xl font-bold py-3 md:py-4 font-display tracking-wider">
+      Lass uns dein Projekt starten
+    </h1>
+    <p class="max-w-3xl text-lg md:text-xl text-white/90 mx-auto md:mx-0">
+      Kurze Wege, klare Ergebnisse: Schreib mir deine Idee – ich melde mich zeitnah mit einem Vorschlag.
+    </p>
+  </div>
+</section>
+
+<!-- Schnelle Kontaktwege -->
+<section class="w-full py-16 md:py-24 bg-ink2 text-white">
+  <div class="mx-auto w-[75vw] grid grid-cols-1 md:grid-cols-3 gap-6">
+    <a href="mailto:pl@pls-edv.de" class="rounded-lg bg-white/5 border border-white/10 p-6 hover:bg-white/10 transition">
+      <p class="text-sm uppercase tracking-wide text-white/70">E-Mail</p>
+      <p class="mt-1 text-2xl font-semibold break-all">pl@pls-edv.de</p>
+      <p class="mt-2 text-white/90">Antwort i. d. R. innerhalb von 1–2 Werktagen.</p>
+    </a>
+
+    <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+      <p class="text-sm uppercase tracking-wide text-white/70">Adresse</p>
+      <p class="mt-1 text-2xl font-semibold">PLS EDV – Philipp Leser</p>
+      <p class="mt-2 text-white/90">
+        Seevekamp 166<br>
+        21266 Jesteburg
+      </p>
+      <p class="mt-3"><a href="#anfahrt" class="underline hover:no-underline">Anfahrt & Karte</a></p>
+    </div>
+
+    <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+      <p class="text-sm uppercase tracking-wide text-white/70">Verfügbarkeit</p>
+      <p class="mt-1 text-2xl font-semibold">Mo–Fr</p>
+      <p class="mt-2 text-white/90">09:00–17:00 • Termine nach Absprache</p>
+    </div>
+  </div>
+</section>
+
+<!-- Kontaktformular -->
+<!-- Formular (Formspree) -->
+<section id="anfrage" class="w-full py-16 md:py-24 bg-black text-white">
+  <div class="mx-auto w-[75vw] grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <!-- Intro (unverändert) -->
+    <div class="lg:col-span-4">
+      <h2 class="text-2xl text-highlight">Kontaktformular</h2>
+      <h3 class="text-2xl lg:text-4xl font-bold py-4 font-display tracking-wider">Erzähl mir kurz von deinem Vorhaben</h3>
+      <p class="text-white/90">Je konkreter die Infos, desto schneller bekommst du ein passendes Angebot oder einen schlauen Vorschlag.</p>
+      <ul class="mt-6 list-disc list-inside text-white/80 space-y-1">
+        <li>Ziele & grober Umfang</li>
+        <li>Bestehende Seite/Domain (falls vorhanden)</li>
+        <li>Zeithorizont & Budgetrahmen (optional)</li>
+      </ul>
+    </div>
+
+    <!-- Formular -->
+    <div class="lg:col-span-8">
+      <form id="contact" action="https://formspree.io/f/mrbavqla" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Honeypot -->
+        <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <!-- optional: eigener Betreff in Formspree -->
+        <input type="hidden" name="_subject" value="Neue Kontaktanfrage über pls-edv.de">
+
+        <div>
+          <label for="name" class="block text-sm text-white/80 mb-1">Name*</label>
+          <input id="name" name="name" required
+                 class="w-full rounded border border-white/20 bg-transparent px-4 py-3 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40"
+                 placeholder="Dein Name">
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm text-white/80 mb-1">E-Mail*</label>
+          <input id="email" name="email" type="email" required
+                 class="w-full rounded border border-white/20 bg-transparent px-4 py-3 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40"
+                 placeholder="name@domain.de">
+        </div>
+
+        <div>
+          <label for="website" class="block text-sm text-white/80 mb-1">Website (optional)</label>
+          <input id="website" name="website" type="url"
+                 class="w-full rounded border border-white/20 bg-transparent px-4 py-3 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40"
+                 placeholder="https://…">
+        </div>
+
+        <div>
+          <label for="subject" class="block text-sm text-white/80 mb-1">Betreff</label>
+          <input id="subject" name="subject"
+                 class="w-full rounded border border-white/20 bg-transparent px-4 py-3 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40"
+                 placeholder="Kurzthema, z. B. „Relaunch WordPress“">
+        </div>
+
+        <div class="md:col-span-2">
+          <label for="message" class="block text-sm text-white/80 mb-1">Nachricht*</label>
+          <textarea id="message" name="message" rows="6" required
+                    class="w-full rounded border border-white/20 bg-transparent px-4 py-3 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40"
+                    placeholder="Kurzbeschreibung: Ziele, Umfang, Timing …"></textarea>
+        </div>
+
+        <div class="md:col-span-2 flex items-start gap-3">
+          <input id="privacy" name="privacy" type="checkbox" required
+                 class="mt-[6px] h-4 w-4 rounded border-white/30 bg-transparent focus:ring-0">
+          <label for="privacy" class="text-sm text-white/80">
+            Ich stimme der Verarbeitung meiner Daten gemäß der
+            <a href="/datenschutz" class="underline hover:no-underline">Datenschutzerklärung</a> zu.*
+          </label>
+        </div>
+
+        <!-- Statusmeldung -->
+        <p id="status" class="md:col-span-2 text-sm text-white/80"></p>
+
+        <div class="md:col-span-2">
+          <button type="submit"
+                  class="inline-block rounded bg-white px-6 py-3 text-ink hover:bg-gray-100">
+            Nachricht senden
+          </button>
+          <p class="mt-2 text-xs text-white/60">* Pflichtfelder</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  // AJAX-Submit für Formspree (json-Antwort, keine Seiten-Reloads)
+  (function () {
+    const form = document.getElementById('contact');
+    if (!form) return;
+    const status = document.getElementById('status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = 'Senden …';
+      try {
+        const data = new FormData(form);
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' } // wichtig für JSON-Response
+        });
+        if (res.ok) {
+          status.textContent = 'Danke! Ich melde mich zeitnah.';
+          form.reset();
+        } else {
+          const body = await res.json().catch(() => ({}));
+          status.textContent = body?.errors?.[0]?.message || 'Ups – bitte erneut versuchen.';
+        }
+      } catch {
+        status.textContent = 'Netzwerkfehler – später erneut versuchen.';
+      }
+    });
+  })();
+</script>
+
+
+<!-- Öffnungszeiten & Hinweise -->
+<section class="w-full py-16 md:py-24 bg-ink2 text-white">
+  <div class="mx-auto w-[75vw] grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div>
+      <h2 class="text-2xl text-highlight">Erreichbarkeit</h2>
+      <h3 class="text-3xl font-bold py-3 font-display tracking-wider">Bürozeiten</h3>
+      <ul class="mt-2 text-white/90 space-y-1">
+        <li>Montag–Freitag: 09:00–17:00</li>
+        <li>oder nach Vereinbarung</li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="text-2xl text-highlight">Zusammenarbeit</h2>
+      <h3 class="text-3xl font-bold py-3 font-display tracking-wider">Remote & vor Ort</h3>
+      <p class="text-white/90">Remote-first, Vor-Ort-Termine im Norden nach Absprache (Jesteburg/Hamburg).</p>
+    </div>
+    <div>
+      <h2 class="text-2xl text-highlight">Response</h2>
+      <h3 class="text-3xl font-bold py-3 font-display tracking-wider">Schnelle Rückmeldung</h3>
+      <p class="text-white/90">In der Regel antworte ich innerhalb von 1–2 Werktagen mit Rückfragen oder einem Vorschlag.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Anfahrt / Karte mit DSGVO-Opt-In -->
+<section id="anfahrt" class="w-full py-16 md:py-24 bg-black text-white">
+  <div class="mx-auto w-[75vw] grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+    <div class="space-y-4">
+      <h4 class="text-xl font-semibold">Direkter Kontakt</h4>
+      <p class="text-white/90">
+        E-Mail: <a href={`mailto:${site.email}`} class="underline hover:no-underline">{site.email}</a><br>
+        Web: <a href={site.url} class="underline hover:no-underline" target="_blank" rel="noopener">{site.url.replace('https://','')}</a><br/>
+        Telefon: <a href={`tel:${site.phone.replace(/ /g,'')}`} class="underline hover:no-underline">{site.phone}</a>
+      </p>
+      <div class="rounded-lg border border-white/10 bg-white/5 p-4">
+        <p class="text-white/80 text-sm">
+          Sie erhalten i. d. R. eine Rückmeldung innerhalb von 1–2 Werktagen.
+        </p>
+      </div>
+    </div>
+
+    <!-- DSGVO-konforme Karten-Einbettung (Opt-In-Box) -->
+    <div class="relative rounded-lg border border-white/10 bg-white/5 overflow-hidden min-h-[320px]">
+      <div class="absolute inset-0 p-6 flex flex-col items-center justify-center text-center">
+        <p class="text-white/90">
+          Um die Karte zu laden, stimme bitte der Übermittlung von Daten an Google (USA) zu.
+          Details in der <a href="/datenschutz" class="underline hover:no-underline">Datenschutzerklärung</a>.
+        </p>
+        <button
+          type="button"
+          class="mt-4 inline-block rounded bg-white px-6 py-3 text-ink hover:bg-gray-100"
+          aria-controls="mapFrame"
+          aria-expanded="true"
+          onclick="const m=document.getElementById('mapFrame'); if(m){ m.innerHTML = `<iframe title='Karte' loading='lazy' referrerpolicy='no-referrer-when-downgrade' class=\'w-full h-[320px] md:h-[100%]\' src='https://www.google.com/maps?q=Seevekamp%20166%2C%2021266%20Jesteburg&output=embed'></iframe>`; }"
+        >
+          Karte laden
+        </button>
+      </div>
+      <div id="mapFrame" class="w-full h-full"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="w-full py-16 md:py-24 bg-ink2 text-white">
+  <div class="mx-auto w-[75vw]">
+    <h2 class="text-2xl text-highlight">FAQ</h2>
+    <h3 class="text-2xl lg:text-4xl font-bold py-4 font-display tracking-wider">Häufige Fragen</h3>
+
+    <div class="mt-8 space-y-4">
+      <details class="rounded-lg bg-white/5 border border-white/10 p-4">
+        <summary class="cursor-pointer text-lg font-semibold">Kann ich nur ein kurzes Beratungsgespräch buchen?</summary>
+        <p class="mt-2 text-white/90">Ja, gern. Schreib mir kurz dein Thema – ich schlage einen Termin für ein kurzes Remote-Gespräch vor.</p>
+      </details>
+      <details class="rounded-lg bg-white/5 border border-white/10 p-4">
+        <summary class="cursor-pointer text-lg font-semibold">Arbeitest du mit bestehenden Designs oder nur „from scratch“?</summary>
+        <p class="mt-2 text-white/90">Beides. Ich integriere mich in bestehende Teams/Designs oder entwickle eine schlanke, neue Basis.</p>
+      </details>
+      <details class="rounded-lg bg-white/5 border border-white/10 p-4">
+        <summary class="cursor-pointer text-lg font-semibold">Wie läuft die Angebotserstellung?</summary>
+        <p class="mt-2 text-white/90">Nach deiner Nachricht klären wir Fragen, dann erhältst du einen klaren Vorschlag (Festpreis-Paket oder Aufwand mit Meilensteinen).</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- Abschluss-CTA -->
+<section class="w-full py-16 md:py-24 bg-black text-white text-center">
+  <div class="mx-auto w-[75vw]">
+    <h3 class="text-3xl md:text-4xl font-bold font-display tracking-wider">
+      Bereit, loszulegen?
+    </h3>
+    <p class="mt-4 text-lg text-white/90">Schick mir deine Idee – ich melde mich zeitnah mit einem Vorschlag.</p>
+    <div class="mt-8">
+      <a href="#anfrage" class="rounded bg-white px-6 py-3 text-ink hover:bg-gray-100">Kontakt aufnehmen</a>
+    </div>
+  </div>
+</section>
+
+
+			
+	 </Layout>

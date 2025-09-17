@@ -1,0 +1,198 @@
+---
+import Layout from '../layouts/Layout.astro';
+/* src/pages/datenschutz.astro */
+const site = {
+  name: "PLS EDV – Philipp Leser",
+  email: "leser@pls-edv.de",
+  url: "https://pls-edv.de",
+  address: ["Seevekamp 166", "21266 Jesteburg", "Deutschland"],
+};
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<Layout pageTitle="pls edv – Philipp Leser | Datenschutzerklärung">
+
+
+<!-- Hero -->
+<section
+     class="relative isolate text-white bg-cover bg-[position:50%_40%]
+           flex items-center
+           min-h-[52svh] md:min-h-[75vh]
+           [@media(orientation:portrait)]:min-h-[45svh]
+           [@media(orientation:landscape)]:min-h-[60vh]"
+    style="background-image: url('/images/plsedvhome.jpg');"
+>
+  <div class="absolute inset-0 pointer-events-none z-0 bg-black/70 md:bg-black/60"></div>
+  <div class="relative z-10 mx-auto w-[75vw] py-12 md:py-20 text-center md:text-left">
+    <h2 class="text-xl md:text-2xl text-highlight">Datenschutz</h2>
+    <h1 class="text-4xl md:text-6xl font-bold py-3 md:py-4 font-display tracking-wider">
+      Datenschutzerklärung
+    </h1>
+    <p class="max-w-3xl text-lg text-white/90 mx-auto md:mx-0">
+      Informationen zur Verarbeitung personenbezogener Daten beim Besuch dieser Website.
+    </p>
+  </div>
+</section>
+
+<!-- Inhalt -->
+<section class="w-full py-16 md:py-24 bg-ink2 text-white">
+  <div class="mx-auto w-[75vw] prose prose-invert max-w-none">
+    <h2 id="ueberblick" class="text-2xl text-highlight not-prose">1. Datenschutz auf einen Blick</h2>
+    <p>
+      Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert,
+      wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.
+      Ausführliche Informationen entnehmen Sie den nachstehenden Abschnitten dieser Datenschutzerklärung.
+    </p>
+
+    <h2 id="datenerfassung" class="text-2xl text-highlight not-prose mt-12">2. Datenerfassung auf dieser Website</h2>
+    <h3 class="text-xl font-semibold not-prose">Wer ist verantwortlich?</h3>
+    <p>
+      Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber (siehe „Verantwortliche Stelle“ weiter unten).
+    </p>
+
+    <h3 class="text-xl font-semibold not-prose">Wie erfassen wir Ihre Daten?</h3>
+    <p>
+      Zum einen dadurch, dass Sie uns diese mitteilen (z.&nbsp;B. über ein Kontaktformular oder per E-Mail).
+      Andere Daten werden automatisch beim Besuch der Website durch unsere IT-Systeme erfasst (z.&nbsp;B. IP-Adresse, Browser, Zeitpunkt).
+    </p>
+
+    <h2 id="pflichtinfos" class="text-2xl text-highlight not-prose mt-12">3. Allgemeine Hinweise und Pflichtinformationen</h2>
+    <h3 class="text-xl font-semibold not-prose">Datenschutz</h3>
+    <p>
+      Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser
+      Datenschutzerklärung. Diese erläutert, welche Daten wir erheben und zu welchen Zwecken.
+    </p>
+
+    <h3 class="text-xl font-semibold not-prose">Hinweis zur verantwortlichen Stelle</h3>
+    <p class="not-prose font-semibold">Verantwortliche Stelle</p>
+    <address class="not-italic">
+      Philipp Leser<br>
+      Seevekamp 166<br>
+      21266 Jesteburg<br>
+      Deutschland<br>
+      E-Mail: <a class="underline hover:no-underline" href={`mailto:${site.email}`}>{site.email}</a>
+    </address>
+    <p>
+      Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über die Zwecke
+      und Mittel der Verarbeitung personenbezogener Daten entscheidet.
+    </p>
+
+    <h2 id="serverlogs" class="text-2xl text-highlight not-prose mt-12">4. Datenerfassung auf dieser Website</h2>
+    <h3 class="text-xl font-semibold not-prose">Server-Log-Dateien</h3>
+    <p>
+      Der Provider dieser Seiten erhebt und speichert automatisch Informationen in Server-Log-Dateien, die Ihr Browser automatisch
+      übermittelt: Browsertyp und -version, verwendetes Betriebssystem, Referrer-URL, Hostname des zugreifenden Rechners, Uhrzeit
+      der Serveranfrage, IP-Adresse. Eine Zusammenführung mit anderen Datenquellen erfolgt nicht.
+    </p>
+    <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer technisch fehlerfreien Darstellung
+      und der Optimierung der Website).</p>
+
+    <h3 id="kontaktformular" class="text-xl font-semibold not-prose mt-8">Kontaktformular & Kommunikation</h3>
+    <p>
+      Wenn Sie uns per Formular oder E-Mail kontaktieren, verarbeiten wir die von Ihnen angegebenen Daten (z.&nbsp;B. Name, E-Mail,
+      Nachricht) zur Bearbeitung Ihrer Anfrage und für den Fall von Anschlussfragen. Eine Weitergabe an Dritte erfolgt nicht ohne
+      Ihre Einwilligung, es sei denn, dies ist zur Vertragserfüllung oder aufgrund gesetzlicher Vorgaben erforderlich.
+    </p>
+    <p>
+      <strong>Rechtsgrundlagen:</strong> Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b DSGVO (vorvertragliche/vertragliche Maßnahmen),
+      Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO (berechtigtes Interesse an effizienter Kommunikation) oder Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;a DSGVO (Einwilligung), sofern abgefragt.
+    </p>
+    <p>
+      <strong>Speicherdauer:</strong> Wir speichern Ihre Angaben, bis der Zweck entfällt (z.&nbsp;B. abschließende Bearbeitung der Anfrage).
+      Gesetzliche Aufbewahrungsfristen bleiben unberührt.
+    </p>
+
+    <!-- NEU: Formspree -->
+    <h3 id="formspree" class="text-xl font-semibold not-prose mt-8">Einsatz von Formspree (Kontaktformular-Dienst)</h3>
+    <p>
+      Für die Verarbeitung von Formularanfragen nutzen wir den Dienst <strong>Formspree</strong> (Formspree, Inc., USA).
+      Ihre im Formular eingegebenen Daten werden über eine gesicherte Verbindung an Formspree übermittelt und uns dort bereitgestellt.
+      Wir verwenden den Endpoint <code>/f/mrbavqla</code>.
+    </p>
+    <p>
+      <strong>Verarbeitete Daten:</strong> Formularinhalte (z.&nbsp;B. Name, E-Mail, Nachricht), Metadaten der Übermittlung
+      (z.&nbsp;B. Datum/Uhrzeit). Formspree kann zur Missbrauchsvermeidung technisch erforderliche Daten verarbeiten
+      (z.&nbsp;B. IP-Adresse/ User-Agent).
+    </p>
+    <p>
+      <strong>Zweck:</strong> Entgegennahme, Übermittlung und Verwaltung von Kontaktanfragen über unser Webformular.
+    </p>
+    <p>
+      <strong>Rechtsgrundlagen:</strong> Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b DSGVO (Anbahnung/Erfüllung eines Vertrags),
+      Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO (berechtigtes Interesse an einer zuverlässigen Formularzustellung) oder
+      Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;a DSGVO (Einwilligung), sofern erteilt.
+    </p>
+    <p>
+      <strong>Auftragsverarbeitung & Garantien:</strong> Mit Formspree besteht ein Vertrag zur Auftragsverarbeitung (Art.&nbsp;28 DSGVO).
+      Soweit Daten in Drittländer (insbesondere USA) übertragen werden, erfolgt dies auf Basis geeigneter Garantien wie
+      Standardvertragsklauseln (SCC) und/oder des EU-US Data Privacy Framework (DPF), soweit anwendbar.
+    </p>
+    <p>
+      <strong>Speicherdauer:</strong> Wir löschen Anfragen in unserem Formspree-Konto regelmäßig, sobald Ihre Anfrage abgeschlossen ist
+      bzw. der Zweck entfällt. Gesetzliche Aufbewahrungsfristen bleiben unberührt. Zusätzlich können Sie die Löschung Ihrer Anfrage
+      jederzeit verlangen (siehe Rechte unten).
+    </p>
+    <p>
+      <strong>Widerspruch/Widerruf:</strong> Sie können einer Verarbeitung auf Grundlage von Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO
+      aus Gründen, die sich aus Ihrer besonderen Situation ergeben, widersprechen bzw. eine erteilte Einwilligung (Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;a DSGVO) jederzeit mit Wirkung für die Zukunft widerrufen.
+    </p>
+
+    <h2 id="rechte" class="text-2xl text-highlight not-prose mt-12">5. Ihre Rechte</h2>
+    <p>
+      Sie haben das Recht auf <strong>Auskunft</strong>, <strong>Berichtigung</strong>, <strong>Löschung</strong>, <strong>Einschränkung</strong> der Verarbeitung,
+      <strong>Datenübertragbarkeit</strong> sowie ein <strong>Widerspruchsrecht</strong> gegen Verarbeitungen nach Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;e oder f DSGVO.
+      Sofern die Verarbeitung auf Ihrer Einwilligung beruht, können Sie diese jederzeit widerrufen.
+    </p>
+    <p>
+      Bitte richten Sie entsprechende Anfragen an: <a class="underline hover:no-underline" href={`mailto:${site.email}`}>{site.email}</a>.
+      Zudem steht Ihnen ein Beschwerderecht bei einer Datenschutzaufsichtsbehörde zu.
+    </p>
+
+    <h2 id="analyse" class="text-2xl text-highlight not-prose mt-12">6. Analyse-Tools und Werbung</h2>
+    <p>
+      Diese Website verzichtet auf Tracking-Tools, Analyse-Cookies und externe Werbung. Für die Dark-Mode-Funktion wird lokal
+      (localStorage) Ihre Präferenz gespeichert. Diese Information verbleibt in Ihrem Browser und wird nicht an uns übertragen.
+    </p>
+
+    <h2 id="hosting" class="text-2xl text-highlight not-prose mt-12">7. Hosting</h2>
+    <p>
+      Diese Website wird bei einem externen Dienstleister (Hoster) betrieben. Personenbezogene Daten, die auf dieser Website
+      erfasst werden, werden auf den Servern des Hosters gespeichert (u. a. IP-Adressen, Server-Logs, Kontaktanfragen).
+      Der Einsatz des Hosters erfolgt zum Zwecke der Vertragserfüllung gegenüber (potenziellen) Kunden (Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b DSGVO)
+      sowie im Interesse einer sicheren und effizienten Bereitstellung unseres Online-Angebots (Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO).
+      Mit dem Hoster besteht ein Vertrag zur Auftragsverarbeitung (Art.&nbsp;28 DSGVO).
+    </p>
+
+    <p class="mt-12 text-sm text-white/60">Letzte Aktualisierung: 20.08.2025</p>
+  </div>
+</section>
+
+<!-- Optional: JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebSite",
+  "name":"PLS EDV – Philipp Leser",
+  "url":"https://pls-edv.de",
+  "publisher":{
+    "@type":"Person",
+    "name":"Philipp Leser",
+    "email":"mailto:leser@pls-edv.de",
+    "address":{
+      "@type":"PostalAddress",
+      "streetAddress":"Seevekamp 166",
+      "postalCode":"21266",
+      "addressLocality":"Jesteburg",
+      "addressCountry":"DE"
+    }
+  }
+}
+</script>
+
+
+
+
+			
+	 </Layout>

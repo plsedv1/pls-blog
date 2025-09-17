@@ -1,0 +1,137 @@
+---
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import "../styles/global.css";
+
+export interface Props {
+  pageTitle?: string;
+  description?: string;
+  ogImage?: string;            // /images/og-default.jpg
+  noindex?: boolean;           // true = noindex
+  type?: 'website' | 'article';
+  publishedTime?: string;      // ISO, für Artikel
+  modifiedTime?: string;       // ISO, für Artikel
+  keywords?: string[];         // optional
+}
+
+const {
+  pageTitle = 'PLS EDV – Webdesign & WordPress in der Nordheide',
+  description = 'Webdesign in Jesteburg & Hamburg Süd. WordPress-Agentur Harburg, Divi-Webdesign, schnelle Ladezeiten & Barrierefreiheit.',
+  ogImage = '/images/og-default.jpg',
+  noindex = false,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  keywords = [
+    'Webdesign Jesteburg',
+    'WordPress Agentur Harburg',
+    'Homepage erstellen lassen Hamburg Süd',
+    'Divi Webdesigner Nordheide'
+  ]
+} = Astro.props;
+
+// Canonical: bevorzugt Astro.site aus astro.config, sonst absolute URL der aktuellen Seite
+const site = Astro.site; // definiert, wenn in astro.config.ts "site" gesetzt ist
+const currentPath = Astro.url.pathname;
+const canonical = site ? new URL(currentPath, site).toString() : Astro.url.toString();
+
+// Robots: in DEV oder bei noindex -> noindex,nofollow
+const isDev = import.meta.env.DEV;
+const robots = (isDev || noindex) ? 'noindex, nofollow' : 'index, follow';
+
+// Open Graph
+const ogUrl = canonical;
+const ogType = type;
+
+// JSON-LD
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'PLS EDV – Webdesign & WordPress',
+  url: site ? site.toString() : canonical,
+  image: ogImage,
+  areaServed: ['Jesteburg', 'Harburg', 'Hamburg Süd', 'Nordheide', 'Landkreis Harburg'],
+  sameAs: [],
+  description,
+  serviceType: ['Webdesign', 'WordPress', 'Divi', 'SEO', 'Barrierefreiheit'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Webleistungen',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Webdesign Jesteburg' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'WordPress Agentur Harburg' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Homepage erstellen lassen Hamburg Süd' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Divi Webdesigner Nordheide' } }
+    ]
+  }
+};
+
+const webSiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  url: site ? site.toString() : canonical,
+  name: 'PLS EDV',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${site ? site.toString() : ''}/suche?q={search_term_string}`,
+    'query-input': 'required name=search_term_string'
+  }
+};
+---
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>{pageTitle}</title>
+
+    <!-- Meta Basics -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={robots} />
+
+    <!-- Open Graph -->
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="PLS EDV" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:image" content={ogImage} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="de-DE" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+
+    <!-- Preconnect: Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Michroma&family=Open+Sans:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Alpine (falls nötig) -->
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+    <script type="application/ld+json">{JSON.stringify(webSiteLd)}</script>
+  </head>
+
+  <body class="bg-ink2 text-white">
+    <Navbar />
+    <slot />
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,40 @@
+---
+import Base from "./Layout.astro";
+const { frontmatter } = Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  author,
+  image,
+} = frontmatter ?? {};
+---
+
+<Base pageTitle={`Projekt: ${title ?? ""}`}>
+  <!-- Hero -->
+  <section
+    class="relative isolate text-white bg-cover bg-top flex items-end min-h-[35svh] md:min-h-[45vh]"
+    style={`background-image:url('${image?.url ?? "/images/placeholder-1600x900.jpg"}')`}
+  >
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative z-10 mx-auto w-[75vw] py-10 md:py-16">
+      <h1 class="font-heading text-3xl md:text-5xl font-bold tracking-wide">{title}</h1>
+      {description && <p class="mt-3 max-w-3xl text-white/90">{description}</p>}
+      <div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/80">
+        {pubDate && <span>{new Date(pubDate).toLocaleDateString("de-DE")}</span>}
+        {author && <span>– {author}</span>}
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <article class="mx-auto w-[75vw] py-10 md:py-16 prose prose-invert max-w-none">
+    <slot />
+  </article>
+
+  <!-- CTA -->
+  <div class="mx-auto w-[75vw] pb-16 flex gap-4">
+    <a href="/projekte" class="rounded border border-white/20 px-4 py-2 hover:bg-white/10">← Zur Übersicht</a>
+    <a href="/kontakt#anfrage" class="rounded bg-white text-ink px-4 py-2 hover:bg-gray-100">Projekt anfragen</a>
+  </div>
+</Base>

@@ -1,0 +1,14 @@
+# Node/Astro
+node_modules/
+dist/
+.cache/
+.vercel/
+.netlify/
+
+# Editor/OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.local

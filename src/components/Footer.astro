@@ -1,0 +1,84 @@
+---
+const site = {
+  name: "PLS EDV – Philipp Leser",
+  email: "pl@pls-edv.de",
+  phone: "+49 4183 7979004",
+  url: "https://www.pls-edv.de"
+};
+---^
+<footer class="bg-black text-white border-t border-white/10">
+  <!-- Main -->
+  <div class="mx-auto w-[75vw] py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <!-- Brand / Kurztext -->
+    <div class="space-y-4">
+      <a href="/" class="inline-flex items-center gap-3">
+        <h4 class="text-lg font-semibold text-highlight">PLS EDV – Philipp Leser</h4>
+        <span class="sr-only">Startseite</span>
+      </a>
+      <p class="text-white/80">
+        Freelance Webentwicklung seit 2001: WordPress-Frontend, Astro, Tailwind, Performance & Barrierefreiheit.
+      </p>
+
+     
+    </div>
+
+    <!-- Navigation -->
+    <nav aria-labelledby="footer-nav" class="space-y-3">
+      <h4 id="footer-nav" class="text-lg font-semibold text-highlight">Navigation</h4>
+      <ul class="space-y-2">
+        <li><a href="/" class="text-white/80 hover:text-white">Startseite</a></li>
+        <li><a href="/unternehmen" class="text-white/80 hover:text-white">Über mich</a></li>
+        <li><a href="/leistungen" class="text-white/80 hover:text-white">Leistungen</a></li>
+        <li><a href="/projekte" class="text-white/80 hover:text-white">Projekte</a></li>
+        <li><a href="/kontakt" class="text-white/80 hover:text-white">Kontakt</a></li>
+      </ul>
+    </nav>
+
+    <!-- Leistungen-Deeplinks (optional anpassen) -->
+    <nav aria-labelledby="footer-services" class="space-y-3">
+      <h4 id="footer-services" class="text-lg font-semibold text-highlight">Leistungen</h4>
+      <ul class="space-y-2">
+        <li><a href="/leistungen#wordpress" class="text-white/80 hover:text-white">WordPress-Frontend</a></li>
+        <li><a href="/leistungen#astro" class="text-white/80 hover:text-white">Astro & Tailwind</a></li>
+        <li><a href="/leistungen#a11y" class="text-white/80 hover:text-white">Barrierefreiheit & Performance</a></li>
+        <li><a href="/leistungen#cms" class="text-white/80 hover:text-white">CMS & Migration</a></li>
+        <li><a href="/leistungen#training" class="text-white/80 hover:text-white">Schulung & Consulting</a></li>
+      </ul>
+    </nav>
+
+    <!-- Kontakt -->
+    <div class="space-y-3">
+      <h4 class="text-lg font-semibold text-highlight">Kontakt</h4>
+      <address class="not-italic text-white/80 leading-relaxed">
+        PLS EDV – Philipp Leser<br>
+        Seevekamp 166<br>
+        21266 Jesteburg
+      </address>
+      <p class="text-white/90">
+        E-Mail: <a href={`mailto:${site.email}`} class="underline hover:no-underline">{site.email}</a><br>
+        Web: <a href={site.url} class="underline hover:no-underline" target="_blank" rel="noopener">{site.url.replace('https://','')}</a><br/>
+        Telefon: <a href={`tel:${site.phone.replace(/ /g,'')}`} class="underline hover:no-underline">{site.phone}</a>
+      </p>
+
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="border-t border-white/10">
+    <div class="mx-auto w-[75vw] py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-white/70">
+      <p>© <span id="ycopy"></span> PLS EDV – Philipp Leser. Alle Rechte vorbehalten.</p>
+      <ul class="flex items-center gap-4">
+        <li><a href="/impressum" class="hover:text-white">Impressum</a></li>
+        <li><a href="/datenschutz" class="hover:text-white">Datenschutz</a></li>
+        <li>
+         
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Copyright-Jahr automatisch setzen
+  (function(){ const el = document.getElementById('ycopy'); if (el) el.textContent = new Date().getFullYear(); })();
+</script>

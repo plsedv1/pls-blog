@@ -1,0 +1,159 @@
+---
+/**
+ * Seite: Aktuelles (Index)
+ * Holt die neuesten Beiträge per WP REST API (Build-Zeit)
+ * und zeigt Kategorien als Badges auf den Karten (ohne Links).
+ */
+
+import Layout from "../layouts/Layout.astro";
+
+
+const WP_BASE = "https://blog.pls-edv.de";
+const PER_PAGE = 12;
+
+// _embed liefert Featured Image + Terms (Kategorien/Tags)
+const url = `${WP_BASE}/wp-json/wp/v2/posts?per_page=${PER_PAGE}&_embed`;
+
+type WPPost = any;
+
+const fmtDate = (iso: string) =>
+  iso
+    ? new Date(iso).toLocaleDateString("de-DE", {
+        year: "numeric",
+        month: "long",
+        day: "2-digit",
+      })
+    : "";
+
+function getFeaturedImage(post: WPPost): { src: string; alt: string } {
+  const media = post?._embedded?.["wp:featuredmedia"]?.[0];
+  let src =
+    media?.source_url ||
+    media?.media_details?.sizes?.medium_large?.source_url ||
+    media?.media_details?.sizes?.large?.source_url ||
+    media?.media_details?.sizes?.full?.source_url ||
+    media?.guid?.rendered ||
+    "";
+  const alt =
+    media?.alt_text ||
+    media?.title?.rendered ||
+    post?.title?.rendered ||
+    "Beitragsbild";
+
+  if (!src) src = "/images/placeholder-16x9.jpg";
+  if (src.startsWith("http://")) src = src.replace("http://", "https://");
+  return { src, alt };
+}
+
+// Kategorien aus _embedded.wp:term[0]
+function getCategories(post: WPPost): Array<string> {
+  const cats = post?._embedded?.["wp:term"]?.[0] || [];
+  return cats.map((t: any) => t?.name).filter(Boolean);
+}
+
+const stripHtml = (html: string) =>
+  (html || "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+
+let posts: WPPost[] = [];
+try {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`WP API Error: ${res.status}`);
+  posts = await res.json();
+} catch (e) {
+  console.error("Fehler beim Laden der WP-Posts:", e);
+  posts = [];
+}
+---
+
+<Layout pageTitle="Aktuelles – Neuigkeiten & Artikel">
+  <!-- Hero -->
+  <section
+    class="relative isolate text-white bg-cover bg-[position:50%_40%] flex items-center min-h-[35svh]"
+    style="background-image: url('/images/plsedvhome.jpg');"
+  >
+    <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+    <div class="relative z-10 mx-auto w-[75vw] py-12">
+      <h1 class="text-3xl md:text-5xl font-display font-bold tracking-wide">
+        Aktuelles
+      </h1>
+      <p class="mt-3 text-white/85 max-w-2xl">
+        Neuigkeiten, Tipps & Einblicke rund um WordPress, Divi, Performance und
+        Barrierefreiheit.
+      </p>
+    </div>
+  </section>
+
+  <!-- Posts -->
+  <section class="w-full py-14 md:py-20 bg-ink2 text-white">
+    <div class="mx-auto w-[75vw]">
+      {posts.length === 0 ? (
+        <p class="text-white/80">Zurzeit sind keine Beiträge verfügbar.</p>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => {
+            const { src, alt } = getFeaturedImage(post);
+            const title = post?.title?.rendered ?? "Ohne Titel";
+            const excerpt = stripHtml(post?.excerpt?.rendered ?? "");
+            const date = fmtDate(post?.date ?? "");
+            const slug = post?.slug;
+            const categories = getCategories(post);
+
+            return (
+              <article class="rounded-xl overflow-hidden bg-white/5 border border-white/10 flex flex-col">
+                <a href={`/aktuelles/${slug}/`} class="block">
+                  <img
+                    src={src}
+                    alt={alt}
+                    class="w-full aspect-[16/9] object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+                <div class="p-5 flex-1 flex flex-col">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <time datetime={post?.date} class="text-sm text-white/70">
+                      {date}
+                    </time>
+                    {categories.length ? (
+                      <div
+                        class="ml-auto flex flex-wrap gap-2"
+                        aria-label="Kategorien"
+                      >
+                        {categories.map((c) => (
+                          <span class="rounded bg-white/10 px-2 py-0.5 text-xs">
+                            {c}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <h2 class="mt-2 text-xl font-semibold leading-snug">
+                    <a
+                      href={`/aktuelles/${slug}/`}
+                      class="hover:underline"
+                      set:html={title}
+                    ></a>
+                  </h2>
+
+                  {excerpt && (
+                    <p class="mt-3 text-white/80 line-clamp-3">{excerpt}</p>
+                  )}
+
+                  <div class="mt-auto pt-5">
+                    <a
+                      href={`/aktuelles/${slug}/`}
+                      class="inline-block rounded bg-white px-4 py-2 text-ink hover:bg-gray-100"
+                    >
+                      Weiterlesen
+                    </a>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Suche nach Markdown-Dateien (md und mdx) im Projekte-Ordner
+// Hinweis: Pfad ist absolut ab /src
+const posts = (await Astro.glob('/src/pages/projekte/*.{md,mdx}'))
+  .filter((p) => !p.frontmatter?.draft) // Drafts ignorieren
+  .sort((a, b) => new Date(b.frontmatter.pubDate) - new Date(a.frontmatter.pubDate))
+  .slice(0, 6);
+---
+
+<Layout pageTitle="pls edv – Philipp Leser | Projekte">
+  <!-- =======================
+       Seite: Projekte
+       ======================= -->
+
+  <!-- Hero -->
+
+  
+  
+  <section
+    class="relative isolate text-white bg-cover bg-[position:50%_40%]
+           flex items-center
+           min-h-[52svh] md:min-h-[75vh]
+           [@media(orientation:portrait)]:min-h-[45svh]
+           [@media(orientation:landscape)]:min-h-[60vh]"
+    style="background-image: url('/images/plsedvhome.jpg');"
+  >
+    <div class="absolute inset-0 bg-black/40 md:bg-black/60 pointer-events-none z-0"></div>
+    <div class="relative z-10 mx-auto w-[75vw] py-10 md:py-20 text-center md:text-left">
+      <h2 class="text-xl md:text-2xl text-highlight py-2 md:py-4">Projekte</h2>
+      <h1 class="text-4xl md:text-6xl font-bold py-3 md:py-6 font-display tracking-wider">
+        Ausgewählte Referenzen
+      </h1>
+      <p class="max-w-3xl text-lg md:text-xl text-white/90 mx-auto md:mx-0">
+        Ein Blick in unsere Arbeit: Wordpress, Astro, Css, Tailwind&nbsp;CSS, JavaScript.
+      </p>
+    </div>
+  </section>
+
+  <!-- Übersicht -->
+  <section class="w-full py-16 md:py-24 bg-ink2 text-white">
+    <div class="mx-auto w-[75vw]">
+      <h2 class="text-2xl text-highlight">Übersicht</h2>
+      <h3 class="text-2xl lg:text-4xl font-bold font-display tracking-wider mt-2">Unsere Projekte</h3>
+
+      <!-- Grid aus Markdown -->
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map((p) => {
+          const fm = p.frontmatter;
+          const img = fm.image?.url ?? '/images/placeholder-800x450.jpg';
+          const alt = fm.image?.alt ?? fm.title ?? '';
+          const desc = fm.description ?? '';
+          return (
+            <article class="rounded-xl overflow-hidden bg-white/5 border border-white/10">
+              <a href={p.url} class="block">
+                <img src={img} alt={alt} class="h-44 w-full object-cover" loading="lazy" />
+                <div class="p-5">
+                  <h4 class="text-xl font-semibold">{fm.title}</h4>
+                  {fm.pubDate && (
+                    <p class="mt-1 text-xs text-white/50">
+                      {new Date(fm.pubDate).toLocaleDateString('de-DE')}
+                    </p>
+                  )}
+                  {desc && <p class="mt-2 text-white/90">{desc}</p>}
+                  <span class="mt-4 inline-block underline hover:no-underline">Mehr erfahren</span>
+                </div>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="w-full py-16 md:py-24 bg-black text-white text-center">
+    <div class="mx-auto w-[75vw]">
+      <h3 class="text-3xl md:text-4xl font-bold font-display tracking-wider">
+        Lust auf ein ähnliches Ergebnis?
+      </h3>
+      <p class="mt-4 text-lg text-white/90">Wir unterstützen Sie von der Idee bis zur fertigen Fläche.</p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/Kontakt" class="rounded bg-white px-6 py-3 text-ink hover:bg-gray-100">Projekt anfragen</a>
+        <a href="/Leistungen" class="rounded border border-white px-6 py-3 hover:bg-white/10">Leistungen ansehen</a>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,87 @@
+<!-- ====== Navbar Section Start -->
+<header x-data="{ navbarOpen: false }" class="relative z-50 w-full bg-white">
+  <div class="mx-auto w-[75vw]">
+    <div class="relative flex items-center justify-between">
+      <!-- Logo -->
+      <div class="w-60 max-w-full">
+        <a href="/" class="block w-full py-5">
+          <img src="/images/plsEdvLogo.png" alt="logo" />
+        </a>
+      </div>
+
+      <!-- Right side: Toggler + Nav -->
+      <div class="flex w-full items-center">
+       <!-- Mobile toggler -->
+<button
+  @click="navbarOpen = !navbarOpen"
+  :class="navbarOpen && 'navbarTogglerActive'"
+  id="navbarToggler"
+  class="ml-auto lg:hidden rounded-lg ring-primary focus:outline-none focus:ring-2
+         flex flex-col items-center justify-center h-11 w-11 z-[60] bg-white"
+  aria-label="Menü"
+  :aria-expanded="navbarOpen.toString()"
+>
+  <span class="block h-[3px] w-8 bg-black rounded my-[3px]"></span>
+  <span class="block h-[3px] w-8 bg-black rounded my-[3px]"></span>
+  <span class="block h-[3px] w-8 bg-black rounded my-[3px]"></span>
+</button>
+
+        <!-- Nav -->
+        <nav
+          :class="!navbarOpen && 'hidden'"
+          id="navbarCollapse"
+          class="absolute right-4 top-[calc(100%+8px)] z-50 w-full max-w-[280px] rounded-lg bg-white px-6 py-5 shadow
+                 lg:static lg:z-auto lg:block lg:w-auto lg:max-w-none lg:shadow-none lg:ml-auto"
+        >
+          <ul class="block lg:flex lg:items-center lg:gap-12 lg:ml-auto">
+            <li>
+              <a href="/"
+                 class="flex py-3 text-lg font-medium text-ink hover:text-primary
+                        lg:py-2 lg:text-base">
+                Home
+              </a>
+            </li>
+
+             <li>
+              <a href="/uebermich"
+                 class="flex py-3 text-lg font-medium text-ink hover:text-primary
+                        lg:py-2 lg:text-base">
+                Über mich
+              </a>
+            </li>
+
+            <li>
+              <a href="/leistungen"
+                 class="flex py-3 text-lg font-medium text-ink hover:text-primary
+                        lg:py-2 lg:text-base">
+                Leistungen
+              </a>
+            </li>
+
+              <li>
+              <a href="/projekte"
+                 class="flex py-3 text-lg font-medium text-ink hover:text-primary
+                        lg:py-2 lg:text-base">
+                Projekte
+              </a>
+            </li>
+
+     
+
+            <li>
+              <a href="/kontakt"
+                 class="flex py-3 text-lg font-medium text-ink hover:text-primary
+                        lg:py-2 lg:text-base">
+                Kontakt
+              </a>
+            </li>
+
+      
+          </ul>
+        </nav>
+      </div>
+      <!-- /Right side -->
+    </div>
+  </div>
+</header>
+<!-- ====== Navbar Section End -->

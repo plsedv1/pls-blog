@@ -1,0 +1,170 @@
+---
+// src/pages/aktuelles.astro
+import Layout from '../layouts/Layout.astro';
+
+// WICHTIG: Serverseitig rendern (kein Prerender), damit CORS/SSL im Browser kein Problem ist
+export const prerender = false;
+
+// Basis-URL deines WordPress-Blogs
+const WP_BASE = 'https://blog.pls-edv.de';
+const API_URL = `${WP_BASE}/wp-json/wp/v2/posts?_embed=1&per_page=6&status=publish`;
+
+/** Kleine Typenhilfe */
+type WPMedia = {
+  source_url?: string;
+  alt_text?: string;
+  title?: { rendered?: string };
+  media_details?: { sizes?: Record<string, { source_url: string }> };
+};
+
+type WPCategory = { id: number; name: string; slug: string; link?: string };
+
+type WPPost = {
+  id: number;
+  date: string;
+  link: string;
+  title: { rendered: string };
+  excerpt?: { rendered?: string };
+  _embedded?: {
+    ["wp:featuredmedia"]?: WPMedia[];
+    ["wp:term"]?: [WPCategory[]]; // Index 0 = Kategorien
+  };
+};
+
+/** Hilfsfunktionen */
+const stripTags = (html: string | undefined) =>
+  (html ?? '')
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, '')
+    .replace(/<\/?[^>]+(>|$)/g, '')
+    .trim();
+
+const thumbFrom = (p: WPPost) => {
+  const m: WPMedia | undefined = p._embedded?.['wp:featuredmedia']?.[0];
+  const sizes = m?.media_details?.sizes ?? {};
+  const candidates = [
+    sizes['medium_large']?.source_url,
+    sizes['large']?.source_url,
+    sizes['medium']?.source_url,
+    m?.source_url,
+  ].filter(Boolean) as string[];
+  const url = candidates[0] ?? '/images/placeholder-800x450.jpg';
+  const alt = m?.alt_text || m?.title?.rendered || stripTags(p.title?.rendered) || 'Beitragsbild';
+  return { url, alt };
+};
+
+const categoriesFrom = (p: WPPost): WPCategory[] => p._embedded?.['wp:term']?.[0] ?? [];
+
+/** Daten laden */
+let posts: WPPost[] = [];
+let errorMsg = '';
+
+try {
+  const res = await fetch(API_URL, {
+    headers: { Accept: 'application/json' },
+    // Auf Netlify wird Server-zu-Server geholt; ein Timeout verhindert „ewiges“ Warten
+    // @ts-ignore
+    timeout: 10000,
+  });
+
+  if (!res.ok) {
+    throw new Error(`WP API HTTP ${res.status}`);
+  }
+
+  posts = (await res.json()) as WPPost[];
+
+  // Edge/Proxy-Caching (optional, gut für Netlify)
+  try {
+    Astro.response.headers.set(
+      'Cache-Control',
+      'public, s-maxage=300, stale-while-revalidate=86400'
+    );
+  } catch {}
+} catch (e: any) {
+  errorMsg = `Konnte Beiträge nicht laden (${e?.message ?? e}).`;
+}
+---
+
+<Layout
+  pageTitle="Aktuelles – Neueste Blogbeiträge | PLS EDV"
+  description="Die letzten Beiträge vom PLS-EDV-Blog: Webdesign, WordPress, Divi, Astro & Performance."
+  ogImage="/images/og-default.jpg"
+  type="article"
+  publishedTime={new Date().toISOString().slice(0,10)}
+  modifiedTime={new Date().toISOString().slice(0,10)}
+  keywords={[
+    'PLS EDV Blog',
+    'WordPress',
+    'Divi',
+    'Astro',
+    'Webdesign Jesteburg',
+    'Nordheide'
+  ]}
+>
+
+<section class="w-full py-14 md:py-20 bg-black text-white">
+  <div class="mx-auto w-[75vw]">
+    <h1 class="text-3xl md:text-5xl font-bold font-display tracking-wider">Aktuelles</h1>
+    <p class="mt-3 text-white/80 max-w-2xl">
+      Die 6 neuesten Beiträge von <a href={WP_BASE} class="underline hover:no-underline" target="_blank" rel="noopener">blog.pls-edv.de</a>.
+    </p>
+
+    {errorMsg && (
+      <div class="mt-8 rounded-lg border border-red-500/40 bg-red-500/10 p-4 text-red-200">
+        <p class="font-semibold">Hinweis</p>
+        <p class="mt-1">{errorMsg}</p>
+        <p class="mt-2">
+          Direkt ansehen: <a href={WP_BASE} class="underline hover:no-underline" target="_blank" rel="noopener">{WP_BASE.replace('https://','')}</a>
+        </p>
+      </div>
+    )}
+
+    {!errorMsg && posts.length === 0 && (
+      <div class="mt-10 text-white/80">Keine Beiträge gefunden.</div>
+    )}
+
+    {!errorMsg && posts.length > 0 && (
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {posts.map((p) => {
+          const { url, alt } = thumbFrom(p);
+          const cats = categoriesFrom(p);
+          const dateStr = new Date(p.date).toLocaleDateString('de-DE');
+          const title = stripTags(p.title?.rendered);
+          const excerpt = stripTags(p.excerpt?.rendered)?.slice(0, 180) + (stripTags(p.excerpt?.rendered).length > 180 ? ' …' : '');
+          return (
+            <article class="min-w-0 rounded-xl overflow-hidden bg-white/5 border border-white/10">
+              <a href={p.link} target="_blank" rel="noopener" class="block" aria-label={`Beitrag lesen: ${title}`}>
+                <div class="h-44 w-full bg-cover bg-center" style={`background-image:url('${url}')`} role="img" aria-label={alt}></div>
+                <div class="p-5">
+                  <h2 class="text-xl font-semibold line-clamp-2">{title}</h2>
+                  <p class="mt-1 text-xs text-white/50">{dateStr}</p>
+
+                  {cats.length > 0 && (
+                    <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                      {cats.slice(0, 3).map((c) => (
+                        <span class="rounded bg-white/10 px-2 py-0.5">{c.name}</span>
+                      ))}
+                    </div>
+                  )}
+
+                  {excerpt && <p class="mt-3 text-white/90 line-clamp-3">{excerpt}</p>}
+
+                  <span class="mt-4 inline-block underline hover:no-underline">Beitrag auf blog.pls-edv.de öffnen</span>
+                </div>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .line-clamp-3 {
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+</style>

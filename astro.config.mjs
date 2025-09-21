@@ -1,8 +1,9 @@
 import { defineConfig } from "astro/config";
+import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://www.pls-edv.de", // wichtig für Sitemap & Canonical
-  integrations: [sitemap(), tailwind()],
+  site: "https://www.pls-edv.de",
+  integrations: [sitemap(), tailwind(), react()],
 });

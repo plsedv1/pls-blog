@@ -1,0 +1,155 @@
+---
+// src/pages/responsive-webentwicklung-mobile-agentur.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  pageTitle="Agentur für responsive Webentwicklung für mobile Endgeräte | PLS EDV"
+  description="Als Agentur für responsive Webentwicklung garantieren wir, dass Ihre Website auf allen mobilen Endgeräten optimal aussieht und funktioniert – für eine perfekte User Experience."
+  ogImage="https://images.unsplash.com/photo-1549692520-acc6669e2fde?q=80&w=1600&auto=format&fit=crop"
+  type="article"
+  publishedTime="2025-09-16"
+  modifiedTime="2025-09-16"
+  keywords={[
+    'Agentur responsive Webentwicklung mobil',
+    'mobile Webentwicklung Agentur',
+    'responsive Design Website',
+    'Mobile-First Webdesign'
+  ]}
+>
+
+  <!-- Hero -->
+  <section
+    class="relative isolate text-white bg-cover bg-center flex items-center min-h-[52svh] md:min-h-[68vh]"
+    style="background-image:url('/images/plsedvhome.jpg');"
+    aria-label="Agentur für responsive Webentwicklung für mobile Endgeräte"
+  >
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative z-10 mx-auto w-[75vw] py-16 md:py-24">
+      <h1 class="text-4xl md:text-6xl font-bold font-display tracking-wider">
+        Agentur für responsive Webentwicklung für mobile Endgeräte
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg md:text-xl text-white/90">
+        Mobile-First und responsive Webentwicklung für optimale Nutzung auf Smartphones & Tablets.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4">
+        <a href="/#kontakt" class="rounded bg-white px-6 py-3 text-ink hover:bg-gray-100">Kostenlos beraten lassen</a>
+        <a href="/projekte" class="rounded border border-white px-6 py-3 hover:bg-white/10">Referenzen ansehen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nutzen -->
+  <section class="w-full py-16 md:py-24 bg-ink2 text-white">
+    <div class="mx-auto w-[75vw] grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <div class="lg:col-span-7">
+        <h2 class="text-2xl text-highlight">Warum PLS EDV?</h2>
+        <h3 class="text-4xl font-bold py-4 font-display tracking-wider">
+          Qualität, Performance & Wartbarkeit
+        </h3>
+        <p class="text-white/90 leading-relaxed">
+          Wir entwickeln skalierbare Lösungen mit sauberer Informationsarchitektur, semantischem HTML und
+          messbarer Geschwindigkeit. Redaktionsfreundlich dank WordPress/Divi oder headless Setups.
+        </p>
+        <ul class="mt-6 space-y-2 text-white/90">
+          <li>• Core Web Vitals & Lighthouse-Optimierung</li>
+          <li>• Barrierearme Umsetzung (WCAG)</li>
+          <li>• Editor-freundliche Strukturen</li>
+          <li>• SEO-Basis, interne Verlinkung & Schema-Daten</li>
+        </ul>
+      </div>
+      <div class="lg:col-span-5">
+        <div
+          class="rounded-lg shadow-lg bg-cover bg-center min-h-[300px]"
+          style="background-image:url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2000&auto=format&fit=crop')"
+          aria-label="Komponentenbasiertes Webdesign und Redaktions-Workflows"
+        ></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leistungen -->
+  <section class="w-full py-16 md:py-24 bg-black text-white">
+    <div class="mx-auto w-[75vw]">
+      <h2 class="text-2xl text-highlight">Leistungen</h2>
+      <h3 class="text-4xl font-bold py-4 font-display tracking-wider">
+        Von der Idee bis zum Betrieb
+      </h3>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <article class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Konzept & IA</h4>
+          <p class="mt-2 text-white/90">Ziele, Personas, Sitemap, Wireframes – klare Wege zu Kontakt & Conversion.</p>
+        </article>
+        <article class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Design & Komponenten</h4>
+          <p class="mt-2 text-white/90">Markengerechtes UI, wiederverwendbare Patterns, konsistente Typografie.</p>
+        </article>
+        <article class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Entwicklung & Integration</h4>
+          <p class="mt-2 text-white/90">WordPress/Divi, APIs, E-Commerce, Portale und Schnittstellen.</p>
+        </article>
+        <article class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Performance & A11y</h4>
+          <p class="mt-2 text-white/90">Bild-/Asset-Optimierung, semantisches HTML, Core Web Vitals im Blick.</p>
+        </article>
+        <article class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">SEO & Tracking</h4>
+          <p class="mt-2 text-white/90">Title/Description, Schema, interne Links, Analytics-Setup.</p>
+        </article>
+        <article class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Betrieb & Wartung</h4>
+          <p class="mt-2 text-white/90">Hosting, Backups, Monitoring, Security & SLA-basierter Support.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interne Verlinkung -->
+  <section class="w-full py-16 md:py-24 bg-ink2 text-white">
+    <div class="mx-auto w-[75vw]">
+      <h2 class="text-2xl text-highlight">Verwandte Themen</h2>
+      <ul class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <li><a href="/responsive-webentwicklung-seo-experten" class="underline hover:no-underline">Experten für responsive Webentwicklung & SEO</a></li>
+        <li><a href="/mobile-first-webentwicklung" class="underline hover:no-underline">Webentwicklung mit Schwerpunkt Mobile-First Design</a></li>
+        <li><a href="/webentwicklung-schnelle-ladezeiten-performance" class="underline hover:no-underline">Weblösungen mit schnellen Ladezeiten & Performance</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="w-full py-16 md:py-24 bg-black text-white text-center">
+    <div class="mx-auto w-[75vw]">
+      <h3 class="text-3xl md:text-4xl font-bold font-display tracking-wider">
+        Nächsten Schritt starten?
+      </h3>
+      <p class="mt-4 text-lg text-white/90">
+        Wir beraten Sie unverbindlich – von der Idee bis zum Launch.
+      </p>
+      <div class="mt-8">
+        <a href="/#kontakt" class="rounded bg-white px-6 py-3 text-ink hover:bg-gray-100">Jetzt Kontakt aufnehmen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Agentur für responsive Webentwicklung für mobile Endgeräte",
+  "provider": {
+    "@type": "Organization",
+    "name": "PLS EDV – Philipp Leser",
+    "url": "https://www.pls-edv.de",
+    "areaServed": [
+      "Deutschland",
+      "Hamburg",
+      "Harburg",
+      "Nordheide"
+    ]
+  },
+  "description": "Mobile-First und responsive Webentwicklung für optimale Nutzung auf Smartphones & Tablets."
+}
+  </script>
+
+</Layout>

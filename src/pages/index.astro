@@ -71,7 +71,7 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
   <div class="flex flex-col lg:flex-row mx-auto w-[75vw] gap-10 items-start">
     
     <!-- Bild: mobil oben, Desktop rechts -->
-    <div class="lg:w-5/12 order-1 lg:order-2">
+    <div class="lg:w-5/12 order-1 lg:order-2 intro-portrait">
       <div class="rounded-lg shadow-lg overflow-hidden">
         <img src="/images/philipp-portrait.jpg"
              alt="Philipp Leser – Webdesign Jesteburg & Divi Webdesigner Nordheide"
@@ -399,6 +399,33 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
   </div>
 </section>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const portrait = document.querySelector('.intro-portrait');
+    if (!portrait) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      portrait.classList.add('is-visible');
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries, observerInstance) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observerInstance.disconnect();
+          break;
+        }
+      }
+    }, { threshold: 0.4 });
+
+    observer.observe(portrait);
+  });
+</script>
 <!-- Optional: JSON-LD -->
 <script type="application/ld+json">
 {
@@ -412,3 +439,26 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
 }
 </script>
 </Layout>
+<style>
+  .intro-portrait {
+    opacity: 0;
+    transform: translate3d(120px, 0, 0);
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease;
+    will-change: transform, opacity;
+  }
+
+  .intro-portrait.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro-portrait {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+

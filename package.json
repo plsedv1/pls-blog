@@ -1,7 +1,19 @@
 {
-  "name": "construction",
-  "type": "module",
+  "name": "plsedv",
   "version": "0.0.1",
+  "description": "```sh npm create astro@latest -- --template basics ```",
+  "homepage": "https://github.com/plsedv1/PLS_EDV#readme",
+  "bugs": {
+    "url": "https://github.com/plsedv1/PLS_EDV/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plsedv1/PLS_EDV.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "postcss.config.js",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -9,9 +21,12 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/react": "^4.3.1",
     "@astrojs/sitemap": "^3.5.1",
     "@tailwindcss/vite": "^4.1.13",
-    "astro": "^5.13.7"
+    "astro": "^5.13.7",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@astrojs/node": "^9.4.3",

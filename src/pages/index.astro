@@ -13,6 +13,20 @@ const site = {
 const latestProjects = (await Astro.glob('./projekte/*.md'))
   .sort((a, b) => +new Date(b.frontmatter?.pubDate ?? 0) - +new Date(a.frontmatter?.pubDate ?? 0))
   .slice(0, 3);
+
+// 3 neueste Blog-Beiträge via WP REST API
+const WP_BASE = 'https://blog.pls-edv.de';
+const API_URL = `${WP_BASE}/wp-json/wp/v2/posts?_embed=1&per_page=3&status=publish`;
+
+let blogPosts: any[] = [];
+try {
+  const res = await fetch(API_URL);
+  if (res.ok) {
+    blogPosts = await res.json();
+  }
+} catch (e) {
+  console.error("Fehler beim Laden der Blogposts:", e);
+}
 ---
 
 <Layout
@@ -65,12 +79,9 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
 </section>
 
 <!-- Intro / Über mich -->
-
-
 <section class="w-full py-16 md:py-24 bg-ink2 text-white">
   <div class="flex flex-col lg:flex-row mx-auto w-[75vw] gap-10 items-start">
-    
-    <!-- Bild: mobil oben, Desktop rechts -->
+    <!-- Bild -->
     <div class="lg:w-5/12 order-1 lg:order-2 intro-portrait">
       <div class="rounded-lg shadow-lg overflow-hidden">
         <img src="/images/philipp-portrait.jpg"
@@ -79,7 +90,7 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
       </div>
     </div>
 
-    <!-- Text: mobil unten, Desktop links -->
+    <!-- Text -->
     <div class="lg:w-7/12 order-2 lg:order-1">
       <h2 class="text-2xl text-highlight">Über mich</h2>
       <h3 class="text-2xl lg:text-4xl font-bold py-4 font-display tracking-wider">Strategie trifft Handwerk 1</h3>
@@ -109,10 +120,8 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
         <span class="rounded bg-white/10 px-3 py-1 text-sm">A11y</span>
       </div>
     </div>
-
   </div>
 </section>
-
 
 <!-- Leistungen -->
 <section class="w-full py-16 md:py-24 bg-black text-white">
@@ -121,74 +130,7 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
     <h3 class="text-2xl  lg:text-4xl font-bold py-4 font-display tracking-wider">
       Webdesign & WordPress in Jesteburg, Harburg & Hamburg Süd
     </h3>
-
-    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-
-      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
-        <h4 class="text-xl font-semibold">
-          <a href="/webdesign-jesteburg" class="underline hover:no-underline">Webdesign Jesteburg</a>
-        </h4>
-        <p class="mt-2 text-white/90">
-          Planung, Design & Umsetzung schneller Websites für lokale Unternehmen in der Nordheide.
-        </p>
-        <ul class="mt-3 text-white/80 list-disc list-inside space-y-1">
-          <li>Individuelle Layouts & Komponenten</li>
-          <li>Core Web Vitals & Lighthouse</li>
-          <li>Barrierearme Umsetzung (a11y)</li>
-        </ul>
-      </div>
-
-      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
-        <h4 class="text-xl font-semibold">
-          <a href="/wordpress-agentur-harburg" class="underline hover:no-underline">WordPress Agentur Harburg</a>
-        </h4>
-        <p class="mt-2 text-white/90">Theme-Entwicklung, Block-Editor, saubere Strukturen und nachhaltige Workflows.</p>
-        <ul class="mt-3 text-white/80 list-disc list-inside space-y-1">
-          <li>Custom Themes & Child Themes</li>
-          <li>SEO-Basis & Schema-Markup</li>
-          <li>Wartung & Relaunch-Begleitung</li>
-        </ul>
-      </div>
-
-      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
-        <h4 class="text-xl font-semibold">
-          <a href="/homepage-erstellen-lassen-hamburg-sued" class="underline hover:no-underline">Homepage erstellen lassen – Hamburg Süd</a>
-        </h4>
-        <p class="mt-2 text-white/90">Komplettpaket von der Idee bis zum Livegang – transparent, effizient, messbar.</p>
-        <ul class="mt-3 text-white/80 list-disc list-inside space-y-1">
-          <li>Inhalt & Struktur (IA)</li>
-          <li>Tracking & Analytics bereit</li>
-          <li>Hosting-/Deployment-Setup</li>
-        </ul>
-      </div>
-
-      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
-        <h4 class="text-xl font-semibold">
-          <a href="/divi-webdesigner-nordheide" class="underline hover:no-underline">Divi Webdesigner Nordheide</a>
-        </h4>
-        <p class="mt-2 text-white/90">Saubere Divi-Komponenten, konsistente Styleguides, schnelle Divi-Seiten.</p>
-        <ul class="mt-3 text-white/80 list-disc list-inside space-y-1">
-          <li>Designsysteme & Tokens</li>
-          <li>Performance-Optimierung</li>
-          <li>Editor-freundliche Module</li>
-        </ul>
-      </div>
-
-      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
-        <h4 class="text-xl font-semibold">Astro & Moderne Stacks</h4>
-        <p class="mt-2 text-white/90">Static/SSR, Islands & Tailwind – extrem schnell und wartungsarm.</p>
-        <ul class="mt-3 text-white/80 list-disc list-inside space-y-1">
-          <li>Content-Modeling & MDX</li>
-          <li>Headless & API-Anbindung</li>
-          <li>CI/CD & Deployment</li>
-        </ul>
-      </div>
-
-      <div class="rounded-lg bg-white/5 border border-white/10 p-6">
-        <h4 class="text-xl font-semibold">Schulung & Consulting</h4>
-        <p class="mt-2 text-white/90">Workshops zu WordPress, Divi, Tailwind & Performance.</p>
-      </div>
-    </div>
+    <!-- … dein bestehender Inhalt … -->
   </div>
 </section>
 
@@ -204,6 +146,7 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
       </div>
     </div>
 
+    <!-- Eigene Projekte -->
     <div class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
       {latestProjects.map((p) => {
         const fm = p.frontmatter ?? {};
@@ -236,6 +179,37 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
         );
       })}
     </div>
+
+    <!-- Blogbeiträge (intern verlinkt auf /aktuelles/[slug]) -->
+    {blogPosts.length > 0 && (
+      <div class="mt-16">
+        <h2 class="text-2xl text-highlight">Aus dem Blog</h2>
+        <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {blogPosts.map((post) => {
+            const title = post.title?.rendered ?? "Beitrag";
+            const internalLink = `/aktuelles/${post.slug}`;
+            const date = new Date(post.date).toLocaleDateString("de-DE");
+            const excerpt = post.excerpt?.rendered?.replace(/<[^>]+>/g, "") ?? "";
+            const img = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? "/images/placeholder-800x450.jpg";
+            const alt = post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text ?? title;
+
+            return (
+              <article class="min-w-0 rounded-xl overflow-hidden bg-white/5 border border-white/10">
+                <a href={internalLink} class="block" aria-label={`Zum Beitrag: ${title}`}>
+                  <div class="h-44 w-full bg-cover bg-center" style={`background-image:url('${img}')`} aria-label={alt}></div>
+                  <div class="p-5">
+                    <h4 class="text-xl font-semibold" set:html={title}></h4>
+                    <p class="mt-1 text-xs text-white/50">{date}</p>
+                    {excerpt && <p class="mt-2 text-white/90">{excerpt}</p>}
+                    <span class="mt-4 inline-block underline hover:no-underline">Zum Beitrag</span>
+                  </div>
+                </a>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    )}
   </div>
 </section>
 
@@ -268,6 +242,8 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
       </div>
     </div>
   </div>
+</section>
+
 </section>
 
 <!-- Teaching -->
@@ -402,17 +378,12 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const portrait = document.querySelector('.intro-portrait');
-    if (!portrait) {
-      return;
-    }
-
+    if (!portrait) return;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
       portrait.classList.add('is-visible');
       return;
     }
-
     const observer = new IntersectionObserver((entries, observerInstance) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
@@ -422,10 +393,10 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
         }
       }
     }, { threshold: 0.4 });
-
     observer.observe(portrait);
   });
 </script>
+
 <!-- Optional: JSON-LD -->
 <script type="application/ld+json">
 {
@@ -438,7 +409,8 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
   "knowsAbout":["Webdesign Jesteburg","WordPress Agentur Harburg","Homepage erstellen lassen Hamburg Süd","Divi Webdesigner Nordheide","WordPress","Tailwind CSS","Astro","JavaScript","PHP","MySQL","Accessibility","Performance"]
 }
 </script>
-</Layout>
+
+
 <style>
   .intro-portrait {
     opacity: 0;
@@ -446,12 +418,10 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
     transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease;
     will-change: transform, opacity;
   }
-
   .intro-portrait.is-visible {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
-
   @media (prefers-reduced-motion: reduce) {
     .intro-portrait {
       opacity: 1;
@@ -460,5 +430,3 @@ const latestProjects = (await Astro.glob('./projekte/*.md'))
     }
   }
 </style>
-
-

@@ -1,0 +1,174 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const prerender = false;
+
+// Basis-URL deines WordPress-Blogs
+const WP_BASE = 'https://blog.pls-edv.de';
+
+type WPMedia = {
+  source_url?: string;
+  alt_text?: string;
+  title?: { rendered?: string };
+  media_details?: { sizes?: Record<string, { source_url: string }> };
+};
+
+type WPCategory = { id: number; name: string; slug: string; link?: string };
+
+type WPPost = {
+  id: number;
+  date: string;
+  modified?: string;
+  slug: string;
+  link: string;
+  title: { rendered: string };
+  content?: { rendered?: string };
+  excerpt?: { rendered?: string };
+  _embedded?: {
+    ["wp:featuredmedia"]?: WPMedia[];
+    ["wp:term"]?: [WPCategory[]]; // Index 0 = Kategorien
+  };
+};
+
+const stripTags = (html: string | undefined) =>
+  (html ?? '')
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, '')
+    .replace(/<\/?[^>]+(>|$)/g, '')
+    .trim();
+
+const heroFrom = (p: WPPost) => {
+  const m: WPMedia | undefined = p._embedded?.['wp:featuredmedia']?.[0];
+  const sizes = m?.media_details?.sizes ?? {};
+  const candidates = [
+    sizes['large']?.source_url,
+    sizes['medium_large']?.source_url,
+    sizes['medium']?.source_url,
+    m?.source_url,
+  ].filter(Boolean) as string[];
+  const url = candidates[0] ?? '/images/placeholder-1600x900.jpg';
+  const alt = m?.alt_text || m?.title?.rendered || stripTags(p.title?.rendered) || 'Beitragsbild';
+  return { url, alt };
+};
+
+const categoriesFrom = (p: WPPost): WPCategory[] => p._embedded?.['wp:term']?.[0] ?? [];
+
+let post: WPPost | null = null;
+let errorMsg = '';
+
+const { slug } = Astro.params;
+
+// Hilfsfetch
+async function fetchBySlugOrId(slugOrId: string): Promise<WPPost | null> {
+  // 1) Versuch per Slug
+  const bySlug = await fetch(
+    `${WP_BASE}/wp-json/wp/v2/posts?slug=${encodeURIComponent(slugOrId)}&_embed=1`,
+    { headers: { Accept: 'application/json' } }
+  );
+  if (bySlug.ok) {
+    const arr = (await bySlug.json()) as WPPost[];
+    if (arr && arr.length > 0) return arr[0];
+  }
+
+  // 2) Fallback: wenn es eine Zahl ist, per ID
+  const idNum = Number(slugOrId);
+  if (Number.isFinite(idNum)) {
+    const byId = await fetch(
+      `${WP_BASE}/wp-json/wp/v2/posts/${idNum}?_embed=1`,
+      { headers: { Accept: 'application/json' } }
+    );
+    if (byId.ok) {
+      const obj = (await byId.json()) as WPPost;
+      if (obj && obj.id) return obj;
+    }
+  }
+  return null;
+}
+
+try {
+  post = await fetchBySlugOrId(slug!);
+
+  if (!post) {
+    Astro.response.status = 404;
+    errorMsg = 'Beitrag wurde nicht gefunden.';
+  } else {
+    try {
+      Astro.response.headers.set(
+        'Cache-Control',
+        'public, s-maxage=300, stale-while-revalidate=86400'
+      );
+    } catch {}
+  }
+} catch (e: any) {
+  Astro.response.status = 500;
+  errorMsg = `Konnte Beitrag nicht laden (${e?.message ?? e}).`;
+}
+
+const title = post ? stripTags(post.title?.rendered) : 'Beitrag';
+const published = post ? new Date(post.date) : new Date();
+const modified = post?.modified ? new Date(post.modified) : published;
+const { url: heroUrl, alt: heroAlt } = post ? heroFrom(post) : { url: '', alt: '' };
+const cats = post ? categoriesFrom(post) : [];
+---
+
+<Layout
+  pageTitle={title + ' | PLS EDV'}
+  description={post?.excerpt?.rendered ? stripTags(post.excerpt.rendered).slice(0, 180) : 'Beitragsdetail'}
+  ogImage={heroUrl || '/images/og-default.jpg'}
+  type="article"
+  publishedTime={published.toISOString()}
+  modifiedTime={modified.toISOString()}
+  keywords={cats.length ? cats.map(c => c.name) : ['PLS EDV Blog']}
+>
+
+  <section class="w-full bg-black text-white">
+    <div class="mx-auto w-[75vw] py-6">
+      <a class="text-white/70 hover:text-white underline" href="/aktuelles">← Zurück zu „Aktuelles“</a>
+    </div>
+
+    {errorMsg ? (
+      <div class="mx-auto w-[75vw] pb-24">
+        <div class="rounded-xl border border-red-500/40 bg-red-500/10 p-5 text-red-200">
+          <p class="font-semibold">Hinweis</p>
+          <p class="mt-1">{errorMsg}</p>
+          <p class="mt-2">Direkt auf dem Blog ansehen: <a class="underline hover:no-underline" href={WP_BASE} target="_blank" rel="noopener">{WP_BASE.replace('https://','')}</a></p>
+        </div>
+      </div>
+    ) : (
+      <>
+        <!-- Hero -->
+        <div class="relative isolate min-h-[38svh] md:min-h-[48svh] bg-cover bg-center"
+             style={`background-image:url('${heroUrl}')`} role="img" aria-label={heroAlt}>
+          <div class="absolute inset-0 bg-gradient-to-t from-black to-black/10"></div>
+          <div class="relative mx-auto w-[75vw] py-12 md:py-20">
+            <h1 class="max-w-4xl text-3xl md:text-5xl font-bold leading-tight drop-shadow">{title}</h1>
+            <p class="mt-3 text-white/80 text-sm">
+              {published.toLocaleDateString('de-DE')}
+              {cats.length > 0 && (
+                <span> • {cats.map(c => c.name).slice(0, 3).join(', ')}</span>
+              )}
+            </p>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <article class="mx-auto w-[75vw] py-10 md:py-14 prose prose-invert prose-headings:font-display prose-a:underline prose-img:rounded-xl max-w-none">
+          <div set:html={post!.content?.rendered ?? ''} />
+        </article>
+
+        <!-- Footer Nav -->
+        <div class="mx-auto w-[75vw] pb-20">
+          <a class="inline-block rounded-lg border border-white/15 px-4 py-2 text-white/90 hover:bg-white/10"
+             href="/aktuelles">← Zurück zur Übersicht</a>
+         
+        </div>
+      </>
+    )}
+  </section>
+
+  <style>
+    .prose :where(img) { margin-top: 1rem; margin-bottom: 1rem; }
+    .prose :where(iframe, video) { width: 100%; aspect-ratio: 16/9; }
+    .prose :where(table) { display: block; overflow-x: auto; }
+  </style>
+</Layout>

@@ -230,43 +230,11 @@ try {
     </div>
 
     <!-- Eigene Projekte -->
-    <div class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {latestProjects.map((p) => {
-        const fm = p.frontmatter ?? {};
-        const img = fm.image?.url ?? '/images/placeholder-800x450.jpg';
-        const alt = fm.image?.alt ?? `${fm.title ?? 'Projekt'} – Webdesign Jesteburg / WordPress Harburg`;
-        const desc = fm.description ?? '';
-        return (
-          <article class="min-w-0 rounded-xl overflow-hidden bg-white/5 border border-white/10">
-            <a href={p.url} class="block">
-              <div class="h-44 w-full bg-cover bg-center" style={`background-image:url('${img}')`} aria-label={alt}></div>
-              <div class="p-5">
-                <h4 class="text-xl font-semibold">{fm.title}</h4>
-                {fm.pubDate && (
-                  <p class="mt-1 text-xs text-white/50">
-                    {new Date(fm.pubDate).toLocaleDateString('de-DE')}
-                  </p>
-                )}
-                {desc && <p class="mt-2 text-white/90">{desc}</p>}
-                {Array.isArray(fm.tags) && fm.tags.length > 0 && (
-                  <div class="mt-3 flex flex-wrap gap-2 text-xs text-white/70">
-                    {fm.tags.slice(0, 3).map((t) => (
-                      <span class="rounded bg-white/10 px-2 py-0.5">{t}</span>
-                    ))}
-                  </div>
-                )}
-                <span class="mt-4 inline-block underline hover:no-underline">Mehr erfahren</span>
-              </div>
-            </a>
-          </article>
-        );
-      })}
-    </div>
-
+  
     <!-- Blogbeiträge (intern verlinkt auf /aktuelles/[slug]) -->
     {blogPosts.length > 0 && (
       <div class="mt-16">
-        <h2 class="text-2xl text-highlight">Aus dem Blog</h2>
+      
         <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
           {blogPosts.map((post) => {
             const title = post.title?.rendered ?? "Beitrag";

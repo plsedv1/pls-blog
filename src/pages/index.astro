@@ -23,6 +23,12 @@ try {
   const res = await fetch(API_URL);
   if (res.ok) {
     blogPosts = await res.json();
+    // Test-Beitrag "Elsass" herausfiltern
+    blogPosts = blogPosts.filter((post: any) => {
+      const title = (post.title?.rendered || '').toLowerCase().replace(/<[^>]+>/g, '');
+      const slug = (post.slug || '').toLowerCase();
+      return !title.includes('elsass') && !slug.includes('elsass');
+    });
   }
 } catch (e) {
   console.error("Fehler beim Laden der Blogposts:", e);
@@ -229,36 +235,43 @@ try {
       </div>
     </div>
 
-    <!-- Eigene Projekte -->
-  
-    <!-- Blogbeiträge (intern verlinkt auf /aktuelles/[slug]) -->
-    {blogPosts.length > 0 && (
-      <div class="mt-16">
-      
-        <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {blogPosts.map((post) => {
-            const title = post.title?.rendered ?? "Beitrag";
-            const internalLink = `/aktuelles/${post.slug}`;
-            const date = new Date(post.date).toLocaleDateString("de-DE");
-            const excerpt = post.excerpt?.rendered?.replace(/<[^>]+>/g, "") ?? "";
-            const img = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? "/images/placeholder-800x450.jpg";
-            const alt = post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text ?? title;
-
+    <!-- Eigene Projekte aus Markdown -->
+    {latestProjects.length > 0 && (
+      <div class="mt-10">
+        <h4 class="text-xl font-semibold mb-4">Projekte</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {latestProjects.map((project) => {
+            const fm = project.frontmatter;
+            const img = fm.image?.url ?? '/images/placeholder-800x450.jpg';
+            const alt = fm.image?.alt ?? fm.title ?? '';
+            const desc = fm.description ?? '';
             return (
-              <article class="min-w-0 rounded-xl overflow-hidden bg-white/5 border border-white/10">
-                <a href={internalLink} class="block" aria-label={`Zum Beitrag: ${title}`}>
-                  <div class="h-44 w-full bg-cover bg-center" style={`background-image:url('${img}')`} aria-label={alt}></div>
+              <article class="rounded-xl overflow-hidden bg-white/5 border border-white/10">
+                <a href={project.url} class="block" aria-label={`Zum Projekt: ${fm.title}`}>
+                  <img src={img} alt={alt} class="h-44 w-full object-cover" loading="lazy" />
                   <div class="p-5">
-                    <h4 class="text-xl font-semibold" set:html={title}></h4>
-                    <p class="mt-1 text-xs text-white/50">{date}</p>
-                    {excerpt && <p class="mt-2 text-white/90">{excerpt}</p>}
-                    <span class="mt-4 inline-block underline hover:no-underline">Zum Beitrag</span>
+                    <h4 class="text-xl font-semibold">{fm.title}</h4>
+                    {fm.pubDate && (
+                      <p class="mt-1 text-xs text-white/50">
+                        {new Date(fm.pubDate).toLocaleDateString('de-DE')}
+                      </p>
+                    )}
+                    {desc && <p class="mt-2 text-white/90">{desc}</p>}
+                    <span class="mt-4 inline-block underline hover:no-underline">Mehr erfahren</span>
                   </div>
                 </a>
               </article>
             );
           })}
         </div>
+      </div>
+    )}
+
+    <!-- Blogbeiträge (intern verlinkt auf /aktuelles/[slug]) -->
+    {blogPosts.length > 0 && (
+      <div class="mt-16">
+      
+        
       </div>
     )}
   </div>

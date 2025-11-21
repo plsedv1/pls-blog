@@ -2,11 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 
 // Suche nach Markdown-Dateien (md und mdx) im Projekte-Ordner
-// Hinweis: Pfad ist absolut ab /src
-const posts = (await Astro.glob('/src/pages/projekte/*.{md,mdx}'))
+// Pfad ist relativ zur aktuellen Datei
+const posts = (await Astro.glob('./projekte/*.md'))
   .filter((p) => !p.frontmatter?.draft) // Drafts ignorieren
-  .sort((a, b) => new Date(b.frontmatter.pubDate) - new Date(a.frontmatter.pubDate))
-  .slice(0, 6);
+  .sort((a, b) => new Date(b.frontmatter.pubDate) - new Date(a.frontmatter.pubDate));
 ---
 
 <Layout pageTitle="pls edv – Philipp Leser | Projekte">

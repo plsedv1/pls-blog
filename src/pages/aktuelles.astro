@@ -2,122 +2,19 @@
 // src/pages/aktuelles.astro
 import Layout from '../layouts/Layout.astro';
 
-export const prerender = false;
-
-// Basis-URL deines WordPress-Blogs
-const WP_BASE = 'https://blog.pls-edv.de';
-const API_BASE = `${WP_BASE}/wp-json/wp/v2`;
-
-/** Typen */
-type WPMedia = {
-  source_url?: string;
-  alt_text?: string;
-  title?: { rendered?: string };
-  media_details?: { sizes?: Record<string, { source_url: string }> };
-};
-
-type WPCategory = { id: number; name: string; slug: string; count?: number };
-
-type WPPost = {
-  id: number;
-  date: string;
-  slug: string;
-  link: string;
-  title: { rendered: string };
-  excerpt?: { rendered?: string };
-  _embedded?: {
-    ["wp:featuredmedia"]?: WPMedia[];
-    ["wp:term"]?: [WPCategory[]]; // Index 0 = Kategorien
-  };
-};
-
-/** Hilfsfunktionen */
-const stripTags = (html: string | undefined) =>
-  (html ?? '')
-    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '')
-    .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, '')
-    .replace(/<\/?[^>]+(>|$)/g, '')
-    .trim();
-
-const thumbFrom = (p: WPPost) => {
-  const m: WPMedia | undefined = p._embedded?.['wp:featuredmedia']?.[0];
-  const sizes = m?.media_details?.sizes ?? {};
-  const candidates = [
-    sizes['medium_large']?.source_url,
-    sizes['large']?.source_url,
-    sizes['medium']?.source_url,
-    m?.source_url,
-  ].filter(Boolean) as string[];
-  const url = candidates[0] ?? '/images/placeholder-800x450.jpg';
-  const alt =
-    m?.alt_text ||
-    m?.title?.rendered ||
-    stripTags(p.title?.rendered) ||
-    'Beitragsbild';
-  return { url, alt };
-};
-
-const categoriesFrom = (p: WPPost): WPCategory[] =>
-  p._embedded?.['wp:term']?.[0] ?? [];
-
-/** Query-Parameter (Kategorie) */
-const catParam = Astro.url.searchParams.get('cat') || '';
-const selectedCat = Number(catParam) || null;
-
-/** Hilfsfunktion zum Erzeugen der Filter-Links */
-function catHref(id: number | null) {
-  const sp = new URLSearchParams(Astro.url.searchParams);
-  if (id) sp.set('cat', String(id));
-  else sp.delete('cat');
-  return `/aktuelles${sp.toString() ? `?${sp.toString()}` : ''}`;
-}
-
-/** Daten laden */
-let posts: WPPost[] = [];
-let categories: WPCategory[] = [];
-let errorMsg = '';
-
-try {
-  // Kategorien (max 100, alphabetisch)
-  const resCats = await fetch(`${API_BASE}/categories?per_page=100&orderby=name&order=asc`, {
-    headers: { Accept: 'application/json' },
-  });
-  if (!resCats.ok) throw new Error(`WP Categories HTTP ${resCats.status}`);
-  categories = (await resCats.json()) as WPCategory[];
-
-  // Beiträge (12 Stück, optional gefiltert)
-  let apiUrl = `${API_BASE}/posts?_embed=1&per_page=12&status=publish`;
-  if (selectedCat) apiUrl += `&categories=${selectedCat}`;
-
-  const resPosts = await fetch(apiUrl, {
-    headers: { Accept: 'application/json' },
-    // @ts-ignore
-    timeout: 10000,
-  });
-  if (!resPosts.ok) throw new Error(`WP Posts HTTP ${resPosts.status}`);
-  posts = (await resPosts.json()) as WPPost[];
-
-  // Edge/Proxy-Caching (z. B. Netlify)
-  try {
-    Astro.response.headers.set(
-      'Cache-Control',
-      'public, s-maxage=300, stale-while-revalidate=86400'
-    );
-  } catch {}
-} catch (e: any) {
-  errorMsg = `Konnte Daten nicht laden (${e?.message ?? e}).`;
-}
+// Projekte aus Markdown-Dateien laden
+const projects = (await Astro.glob('./projekte/*.md'))
+  .filter((p) => !p.frontmatter?.draft) // Drafts ignorieren
+  .sort((a, b) => new Date(b.frontmatter.pubDate) - new Date(a.frontmatter.pubDate));
 ---
 
 <Layout
-  pageTitle="Aktuelles – Neueste Blogbeiträge | PLS EDV"
-  description="Die neuesten Beiträge vom PLS-EDV-Blog: Webdesign, WordPress, Divi, Astro & Performance."
+  pageTitle="Aktuelles – Projekte | PLS EDV"
+  description="Ausgewählte Projekte von PLS EDV: Webdesign, WordPress, Divi, Astro & Performance."
   ogImage="/images/og-default.jpg"
-  type="article"
-  publishedTime={new Date().toISOString().slice(0,10)}
-  modifiedTime={new Date().toISOString().slice(0,10)}
+  type="website"
   keywords={[
-    'PLS EDV Blog',
+    'PLS EDV Projekte',
     'WordPress',
     'Divi',
     'Astro',
@@ -129,85 +26,48 @@ try {
 <section class="w-full py-14 md:py-20 bg-black text-white">
   <div class="mx-auto w-[75vw]">
     <h1 class="text-3xl md:text-5xl font-bold font-display tracking-wider">Projekte</h1>
-    
+    <p class="mt-4 text-lg text-white/90">Ausgewählte Referenzen aus unserer Arbeit.</p>
 
-    <!-- Kategorie-Filter: Buttons/Chips -->
-    {categories.length > 0 && (
-      <div class="mt-6 flex flex-wrap gap-2">
-        <!-- "Alle" -->
-        <a
-          href={catHref(null)}
-          aria-pressed={selectedCat === null}
-          class={`inline-flex items-center rounded-full border px-3 py-1 text-sm transition
-                  ${selectedCat === null
-                    ? 'border-white bg-white text-black'
-                    : 'border-white/20 bg-white/5 hover:bg-white/10'}`}
-        >
-          Alle
-        </a>
-
-        {categories.map((c) => (
-          <a
-            href={catHref(c.id)}
-            aria-pressed={selectedCat === c.id}
-            class={`inline-flex items-center rounded-full border px-3 py-1 text-sm transition
-                    ${selectedCat === c.id
-                      ? 'border-white bg-white text-black'
-                      : 'border-white/20 bg-white/5 hover:bg-white/10'}`}
-          >
-            {c.name}{typeof c.count === 'number' ? ` (${c.count})` : ''}
-          </a>
-        ))}
-      </div>
+    {projects.length === 0 && (
+      <div class="mt-10 text-white/80">Keine Projekte gefunden.</div>
     )}
 
-    {errorMsg && (
-      <div class="mt-8 rounded-lg border border-red-500/40 bg-red-500/10 p-4 text-red-200">
-        <p class="font-semibold">Hinweis</p>
-        <p class="mt-1">{errorMsg}</p>
-        <p class="mt-2">
-          Direkt ansehen:
-          <a href={WP_BASE} class="underline hover:no-underline" target="_blank" rel="noopener">
-            {WP_BASE.replace('https://','')}
-          </a>
-        </p>
-      </div>
-    )}
-
-    {!errorMsg && posts.length === 0 && (
-      <div class="mt-10 text-white/80">Keine Beiträge gefunden.</div>
-    )}
-
-    {!errorMsg && posts.length > 0 && (
+    {projects.length > 0 && (
       <div class="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {posts.map((p) => {
-          const { url, alt } = thumbFrom(p);
-          const cats = categoriesFrom(p);
-          const dateStr = new Date(p.date).toLocaleDateString('de-DE');
-          const title = stripTags(p.title?.rendered);
-          const rawExcerpt = stripTags(p.excerpt?.rendered);
-          const excerpt = rawExcerpt ? (rawExcerpt.length > 180 ? rawExcerpt.slice(0, 180) + ' …' : rawExcerpt) : '';
+        {projects.map((project) => {
+          const fm = project.frontmatter;
+          const img = fm.image?.url ?? '/images/placeholder-800x450.jpg';
+          const alt = fm.image?.alt ?? fm.title ?? '';
+          const desc = fm.description ?? '';
+          const dateStr = fm.pubDate ? new Date(fm.pubDate).toLocaleDateString('de-DE') : '';
+          
+          // URL ändern: von /projekte/[slug] zu /aktuelles/[slug]
+          const projectSlug = project.file?.split('/').pop()?.replace(/\.md$/, '') || '';
+          const projectUrl = `/aktuelles/${projectSlug}`;
+          
           return (
             <article class="min-w-0 rounded-xl overflow-hidden bg-white/5 border border-white/10">
-              <a href={`/aktuelles/${p.slug}`} class="block" aria-label={`Beitrag lesen: ${title}`}>
-                <div class="h-44 w-full bg-cover bg-center" style={`background-image:url('${url}')`} role="img" aria-label={alt}></div>
+              <a href={projectUrl} class="block" aria-label={`Zum Projekt: ${fm.title}`}>
+                <img src={img} alt={alt} class="h-44 w-full object-cover" loading="lazy" />
                 <div class="p-5">
-                  <h2 class="text-xl font-semibold line-clamp-2">{title}</h2>
-                  <p class="mt-1 text-xs text-white/50">{dateStr}</p>
+                  <h2 class="text-xl font-semibold line-clamp-2">{fm.title}</h2>
+                  {dateStr && (
+                    <p class="mt-1 text-xs text-white/50">{dateStr}</p>
+                  )}
 
-                  {cats.length > 0 && (
+                  {fm.tags && Array.isArray(fm.tags) && fm.tags.length > 0 && (
                     <div class="mt-3 flex flex-wrap gap-2 text-xs">
-                      {cats.slice(0, 3).map((c) => (
-                        <a href={catHref(c.id)} class="rounded bg-white/10 hover:bg-white/15 px-2 py-0.5">
-                          {c.name}
-                        </a>
+                      {fm.tags.slice(0, 3).map((tag: string) => (
+                        <span class="rounded bg-white/10 px-2 py-0.5">
+                          {tag}
+                        </span>
                       ))}
                     </div>
                   )}
 
-                  {excerpt && <p class="mt-3 text-white/90 line-clamp-3">{excerpt}</p>}
+                  {desc && <p class="mt-3 text-white/90 line-clamp-3">{desc}</p>}
 
-                  <span class="mt-4 inline-block underline hover:no-underline">Beitrag öffnen</span>
+                  <span class="mt-4 inline-block underline hover:no-underline">Mehr erfahren</span>
                 </div>
               </a>
             </article>

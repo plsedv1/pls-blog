@@ -60,10 +60,18 @@ const { slug } = Astro.params;
 
 // Hilfsfetch
 async function fetchBySlugOrId(slugOrId: string): Promise<WPPost | null> {
+  // Cache-Busting: Timestamp hinzufügen
+  const cacheBuster = `&_=${Date.now()}`;
+  
   // 1) Versuch per Slug
   const bySlug = await fetch(
-    `${WP_BASE}/wp-json/wp/v2/posts?slug=${encodeURIComponent(slugOrId)}&_embed=1`,
-    { headers: { Accept: 'application/json' } }
+    `${WP_BASE}/wp-json/wp/v2/posts?slug=${encodeURIComponent(slugOrId)}&_embed=1${cacheBuster}`,
+    { 
+      headers: { 
+        Accept: 'application/json',
+        'Cache-Control': 'no-cache'
+      } 
+    }
   );
   if (bySlug.ok) {
     const arr = (await bySlug.json()) as WPPost[];
@@ -74,8 +82,13 @@ async function fetchBySlugOrId(slugOrId: string): Promise<WPPost | null> {
   const idNum = Number(slugOrId);
   if (Number.isFinite(idNum)) {
     const byId = await fetch(
-      `${WP_BASE}/wp-json/wp/v2/posts/${idNum}?_embed=1`,
-      { headers: { Accept: 'application/json' } }
+      `${WP_BASE}/wp-json/wp/v2/posts/${idNum}?_embed=1${cacheBuster}`,
+      { 
+        headers: { 
+          Accept: 'application/json',
+          'Cache-Control': 'no-cache'
+        } 
+      }
     );
     if (byId.ok) {
       const obj = (await byId.json()) as WPPost;
@@ -93,9 +106,10 @@ try {
     errorMsg = 'Beitrag wurde nicht gefunden.';
   } else {
     try {
+      // Kürzere Cache-Zeit für schnellere Updates
       Astro.response.headers.set(
         'Cache-Control',
-        'public, s-maxage=300, stale-while-revalidate=86400'
+        'public, s-maxage=60, stale-while-revalidate=300'
       );
     } catch {}
   }

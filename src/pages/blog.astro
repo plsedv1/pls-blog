@@ -78,30 +78,39 @@ let categories: WPCategory[] = [];
 let errorMsg = '';
 
 try {
+  // Cache-Busting: Timestamp hinzufügen, um sicherzustellen, dass immer frische Daten geladen werden
+  const cacheBuster = `&_=${Date.now()}`;
+  
   // Kategorien (max 100, alphabetisch)
-  const resCats = await fetch(`${API_BASE}/categories?per_page=100&orderby=name&order=asc`, {
-    headers: { Accept: 'application/json' },
+  const resCats = await fetch(`${API_BASE}/categories?per_page=100&orderby=name&order=asc${cacheBuster}`, {
+    headers: { 
+      Accept: 'application/json',
+      'Cache-Control': 'no-cache'
+    },
   });
   if (!resCats.ok) throw new Error(`WP Categories HTTP ${resCats.status}`);
   categories = (await resCats.json()) as WPCategory[];
 
   // Beiträge (12 Stück, optional gefiltert)
-  let apiUrl = `${API_BASE}/posts?_embed=1&per_page=12&status=publish`;
+  let apiUrl = `${API_BASE}/posts?_embed=1&per_page=12&status=publish${cacheBuster}`;
   if (selectedCat) apiUrl += `&categories=${selectedCat}`;
 
   const resPosts = await fetch(apiUrl, {
-    headers: { Accept: 'application/json' },
+    headers: { 
+      Accept: 'application/json',
+      'Cache-Control': 'no-cache'
+    },
     // @ts-ignore
     timeout: 10000,
   });
   if (!resPosts.ok) throw new Error(`WP Posts HTTP ${resPosts.status}`);
   posts = (await resPosts.json()) as WPPost[];
 
-  // Edge/Proxy-Caching (z. B. Netlify)
+  // Edge/Proxy-Caching: Kürzere Cache-Zeit für schnellere Updates
   try {
     Astro.response.headers.set(
       'Cache-Control',
-      'public, s-maxage=300, stale-while-revalidate=86400'
+      'public, s-maxage=60, stale-while-revalidate=300'
     );
   } catch {}
 } catch (e: any) {

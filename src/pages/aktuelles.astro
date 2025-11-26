@@ -2,8 +2,9 @@
 // src/pages/aktuelles.astro
 import Layout from '../layouts/Layout.astro';
 
-// Projekte aus Markdown-Dateien laden
-const projects = (await Astro.glob('./projekte/*.md'))
+// Suche nach Markdown-Dateien (md und mdx) im Projekte-Ordner
+// Hinweis: Pfad ist absolut ab /src
+const posts = (await Astro.glob('/src/pages/projekte/*.{md,mdx}'))
   .filter((p) => !p.frontmatter?.draft) // Drafts ignorieren
   .sort((a, b) => new Date(b.frontmatter.pubDate) - new Date(a.frontmatter.pubDate));
 ---
@@ -26,36 +27,28 @@ const projects = (await Astro.glob('./projekte/*.md'))
 <section class="w-full py-14 md:py-20 bg-black text-white">
   <div class="mx-auto w-[75vw]">
     <h1 class="text-3xl md:text-5xl font-bold font-display tracking-wider">Projekte</h1>
-    <p class="mt-4 text-lg text-white/90">Ausgewählte Referenzen aus unserer Arbeit.</p>
 
-    {projects.length === 0 && (
+    {posts.length === 0 && (
       <div class="mt-10 text-white/80">Keine Projekte gefunden.</div>
     )}
 
-    {projects.length > 0 && (
+    {posts.length > 0 && (
       <div class="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {projects.map((project) => {
-          const fm = project.frontmatter;
+        {posts.map((p) => {
+          const fm = p.frontmatter;
           const img = fm.image?.url ?? '/images/placeholder-800x450.jpg';
           const alt = fm.image?.alt ?? fm.title ?? '';
           const desc = fm.description ?? '';
           const dateStr = fm.pubDate ? new Date(fm.pubDate).toLocaleDateString('de-DE') : '';
-          
-          // URL ändern: von /projekte/[slug] zu /aktuelles/[slug]
-          const projectSlug = project.file?.split('/').pop()?.replace(/\.md$/, '') || '';
-          const projectUrl = `/aktuelles/${projectSlug}`;
-          
           return (
             <article class="min-w-0 rounded-xl overflow-hidden bg-white/5 border border-white/10">
-              <a href={projectUrl} class="block" aria-label={`Zum Projekt: ${fm.title}`}>
+              <a href={p.url} class="block" aria-label={`Projekt ansehen: ${fm.title}`}>
                 <img src={img} alt={alt} class="h-44 w-full object-cover" loading="lazy" />
                 <div class="p-5">
                   <h2 class="text-xl font-semibold line-clamp-2">{fm.title}</h2>
-                  {dateStr && (
-                    <p class="mt-1 text-xs text-white/50">{dateStr}</p>
-                  )}
+                  {dateStr && <p class="mt-1 text-xs text-white/50">{dateStr}</p>}
 
-                  {fm.tags && Array.isArray(fm.tags) && fm.tags.length > 0 && (
+                  {fm.tags && fm.tags.length > 0 && (
                     <div class="mt-3 flex flex-wrap gap-2 text-xs">
                       {fm.tags.slice(0, 3).map((tag: string) => (
                         <span class="rounded bg-white/10 px-2 py-0.5">

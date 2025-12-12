@@ -1,0 +1,369 @@
+---
+// src/pages/unternehmen.astro
+import Layout from "../layouts/Layout.astro";
+
+const pageTitle = "Unternehmen – PLS EDV | Webdesign Jesteburg & Nordheide";
+const site = {
+  name: "PLS EDV – Philipp Leser",
+  email: "pl@pls-edv.de",
+  phone: "+49 4183 7979004",
+  url: "https://www.pls-edv.de"
+};
+---
+
+<Layout 
+  pageTitle={pageTitle}
+  description="PLS EDV – Ihre WordPress Agentur in Jesteburg, Harburg & Hamburg Süd. Webdesign, Divi-Entwicklung, Performance-Optimierung und barrierearme Websites seit 2001."
+  keywords={[
+    'PLS EDV',
+    'Webdesign Jesteburg',
+    'WordPress Agentur Harburg',
+    'Unternehmen Nordheide',
+    'Webentwicklung Hamburg Süd'
+  ]}
+>
+  <!-- Hero -->
+  <section
+    class="relative isolate text-white bg-cover bg-[position:50%_40%]
+           flex items-center
+           min-h-[52svh] md:min-h-[75vh]
+           [@media(orientation:portrait)]:min-h-[45svh]
+           [@media(orientation:landscape)]:min-h-[60vh]"
+    style="background-image: url('/images/plsedvhome.jpg');"
+  >
+    <div class="absolute inset-0 bg-black/70 md:bg-black/60"></div>
+    <div class="relative z-10 mx-auto w-[75vw] py-12 md:py-20 text-center md:text-left">
+      <h2 class="text-xl md:text-2xl text-highlight">PLS EDV</h2>
+      <h1 class="text-2xl lg:text-6xl font-bold py-3 md:py-4 font-display tracking-wider">
+        Webdesign & WordPress in der Nordheide
+      </h1>
+      <p class="max-w-3xl text-lg md:text-xl text-white/90 mx-auto md:mx-0">
+        Seit 2001 entwickle ich moderne, performante Websites für Unternehmen in Jesteburg, Harburg und Hamburg Süd.
+        Als Freelancer biete ich maßgeschneiderte Lösungen mit WordPress, Divi, Astro & Tailwind CSS.
+      </p>
+    </div>
+  </section>
+
+  <!-- Über PLS EDV -->
+  <section class="w-full py-16 md:py-24 bg-ink2 text-white">
+    <div class="mx-auto w-[75vw] grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Bild: mobil oben, Desktop rechts -->
+      <div class="lg:col-span-5 order-1 lg:order-2">
+        <div class="rounded-lg shadow-lg overflow-hidden">
+          <img
+            src="/images/philipp-portrait.jpg"
+            alt="Philipp Leser – PLS EDV"
+            class="w-full h-full object-cover"
+            loading="lazy"
+          >
+        </div>
+
+        <!-- Kontaktkarte -->
+        <div class="rounded-lg border border-white/10 bg-white/5 p-4 mt-6">
+          <h4 class="text-lg font-semibold mb-3">Kontakt</h4>
+          <p class="text-white/90 text-sm">
+            E-Mail: <a href={`mailto:${site.email}`} class="underline hover:no-underline">{site.email}</a><br>
+            Web: <a href={site.url} class="underline hover:no-underline" target="_blank" rel="noopener">{site.url.replace('https://','')}</a><br>
+            Telefon: <a href={`tel:${site.phone.replace(/ /g,'')}`} class="underline hover:no-underline">{site.phone}</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Text: mobil unten, Desktop links -->
+      <div class="lg:col-span-7 order-2 lg:order-1">
+        <h3 class="text-2xl lg:text-4xl font-bold font-display tracking-wider">Über PLS EDV</h3>
+        <div class="prose prose-invert max-w-none mt-6">
+          <p>
+            PLS EDV steht für <strong>Philipp Leser Software EDV</strong> – ein Einzelunternehmen mit Fokus auf
+            moderne Webentwicklung, WordPress-Frontend und Performance-optimierte Websites. Seit über 20 Jahren
+            begleite ich Unternehmen von der Konzeption bis zum Launch und darüber hinaus.
+          </p>
+          <p>
+            Als <a href="/webdesign-jesteburg" class="underline hover:no-underline">Webdesigner in Jesteburg</a> und
+            Teil der <a href="/wordpress-agentur-harburg" class="underline hover:no-underline">WordPress-Community in Harburg</a>
+            kenne ich die Bedürfnisse lokaler Unternehmen. Ich entwickle Websites, die nicht nur gut aussehen,
+            sondern auch messbar schnell, zugänglich und suchmaschinenfreundlich sind.
+          </p>
+          <p>
+            Meine Expertise liegt in der Verbindung aus sauberer Frontend-Architektur, starker Performance und
+            einer klaren Redaktions-Experience. Projekte setze ich transparent, iterativ und mit Blick auf die
+            langfristige Wartbarkeit um.
+          </p>
+        </div>
+
+        <!-- Badges -->
+        <div class="mt-8 flex flex-wrap gap-2">
+          <span class="rounded bg-white/10 px-3 py-1 text-sm">Seit 2001</span>
+          <span class="rounded bg-white/10 px-3 py-1 text-sm">WordPress</span>
+          <span class="rounded bg-white/10 px-3 py-1 text-sm">Divi</span>
+          <span class="rounded bg-white/10 px-3 py-1 text-sm">Astro</span>
+          <span class="rounded bg-white/10 px-3 py-1 text-sm">Performance</span>
+          <span class="rounded bg-white/10 px-3 py-1 text-sm">A11y</span>
+          <span class="rounded bg-white/10 px-3 py-1 text-sm">SEO</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Standorte & Regionen -->
+  <section class="w-full py-16 md:py-24 bg-black text-white">
+    <div class="mx-auto w-[75vw]">
+      <h3 class="text-2xl lg:text-4xl font-bold font-display tracking-wider">Standorte & Regionen</h3>
+      <p class="mt-4 text-white/90 max-w-3xl">
+        Als Webdesigner in der Nordheide unterstütze ich Unternehmen in Jesteburg, Harburg, Hamburg Süd und
+        der gesamten Region. Vor-Ort-Termine sind möglich, die meisten Projekte lassen sich aber auch remote
+        effizient umsetzen.
+      </p>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Jesteburg</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            <a href="/webdesign-jesteburg" class="underline hover:no-underline">Webdesign Jesteburg</a> –
+            Lokale Unternehmen in der Nordheide
+          </p>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Harburg</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            <a href="/wordpress-agentur-harburg" class="underline hover:no-underline">WordPress Agentur Harburg</a> –
+            WordPress & Divi-Entwicklung
+          </p>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Hamburg Süd</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            <a href="/homepage-erstellen-lassen-hamburg-sued" class="underline hover:no-underline">Homepage erstellen lassen</a> –
+            Komplettlösungen von A bis Z
+          </p>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Nordheide</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            <a href="/divi-webdesigner-nordheide" class="underline hover:no-underline">Divi Webdesigner Nordheide</a> –
+            Divi-Entwicklung & Design
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leistungen -->
+  <section class="w-full py-16 md:py-24 bg-ink2 text-white">
+    <div class="mx-auto w-[75vw]">
+      <h3 class="text-2xl lg:text-4xl font-bold font-display tracking-wider">Leistungen</h3>
+      <p class="mt-4 text-white/90 max-w-3xl">
+        Von der Konzeption bis zum Launch und darüber hinaus – PLS EDV bietet maßgeschneiderte Lösungen
+        für Ihre Webprojekte.
+      </p>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Webdesign & Entwicklung</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Individuelle Websites mit WordPress, Divi, Astro oder Tailwind CSS. Mobile-first, performant und barrierearm.
+          </p>
+          <ul class="mt-3 text-white/80 text-sm list-disc list-inside space-y-1">
+            <li>Custom WordPress Themes</li>
+            <li>Divi-Design & -Entwicklung</li>
+            <li>Astro & Static Sites</li>
+            <li>Responsive Design</li>
+          </ul>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Performance & SEO</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Schnelle Ladezeiten, Core Web Vitals und suchmaschinenfreundliche Strukturen für bessere Rankings.
+          </p>
+          <ul class="mt-3 text-white/80 text-sm list-disc list-inside space-y-1">
+            <li>Performance-Optimierung</li>
+            <li>SEO-Basis & Schema-Markup</li>
+            <li>Lighthouse-Audits</li>
+            <li>Bildoptimierung</li>
+          </ul>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Barrierefreiheit (A11y)</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            WCAG-orientierte Umsetzung für bessere Zugänglichkeit und Compliance.
+          </p>
+          <ul class="mt-3 text-white/80 text-sm list-disc list-inside space-y-1">
+            <li>A11y-Audits</li>
+            <li>Semantisches HTML</li>
+            <li>Tastaturnavigation</li>
+            <li>Kontrast & Lesbarkeit</li>
+          </ul>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Hosting & Wartung</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Sichere Infrastruktur, regelmäßige Updates und Support für Ihre Website.
+          </p>
+          <ul class="mt-3 text-white/80 text-sm list-disc list-inside space-y-1">
+            <li>Server-Setup & Monitoring</li>
+            <li>WordPress-Updates</li>
+            <li>Backup-Strategien</li>
+            <li>Support & Schulung</li>
+          </ul>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Beratung & Coaching</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Wissenstransfer für Teams: WordPress-Workflows, Divi-Best-Practices und Performance-Optimierung.
+          </p>
+          <ul class="mt-3 text-white/80 text-sm list-disc list-inside space-y-1">
+            <li>Inhouse-Workshops</li>
+            <li>Code-Reviews</li>
+            <li>Technische Beratung</li>
+            <li>Projektmanagement</li>
+          </ul>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Relaunch & Migration</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Modernisierung bestehender Websites, Theme-Wechsel oder CMS-Migration.
+          </p>
+          <ul class="mt-3 text-white/80 text-sm list-disc list-inside space-y-1">
+            <li>Bestandsaufnahme</li>
+            <li>Datenmigration</li>
+            <li>Redesign & Relaunch</li>
+            <li>Go-Live-Begleitung</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Arbeitsweise -->
+  <section class="w-full py-16 md:py-24 bg-black text-white">
+    <div class="mx-auto w-[75vw]">
+      <h3 class="text-2xl lg:text-4xl font-bold font-display tracking-wider">Arbeitsweise</h3>
+      <p class="mt-4 text-white/90 max-w-3xl">
+        Transparent, strukturiert und mit Fokus auf langfristige Wartbarkeit – so arbeite ich an Ihren Projekten.
+      </p>
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-4 sm:grid-cols-2 gap-6">
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <span class="text-highlight font-semibold">01</span>
+          <h4 class="text-xl font-semibold mt-1">Kickoff & Analyse</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Ziele definieren, Zielgruppen analysieren, technische Anforderungen klären und einen realistischen Zeitplan erstellen.
+          </p>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <span class="text-highlight font-semibold">02</span>
+          <h4 class="text-xl font-semibold mt-1">Konzept & Design</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Informationsarchitektur, UX-Konzept, Komponenten-Design und erste Prototypen für Feedback-Runden.
+          </p>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <span class="text-highlight font-semibold">03</span>
+          <h4 class="text-xl font-semibold mt-1">Umsetzung</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Saubere Entwicklung mit regelmäßigen Zwischenständen, Performance-Checks und A11y-Tests während der Umsetzung.
+          </p>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <span class="text-highlight font-semibold">04</span>
+          <h4 class="text-xl font-semibold mt-1">Launch & Support</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Testing, Deployment, Dokumentation, Schulung und langfristiger Support für Ihre Website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Werte -->
+  <section class="w-full py-16 md:py-24 bg-ink2 text-white">
+    <div class="mx-auto w-[75vw]">
+      <h3 class="text-2xl lg:text-4xl font-bold font-display tracking-wider">Werte & Prinzipien</h3>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Qualität & Performance</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Sauberer Code, schnelle Ladezeiten und messbare Ergebnisse. Lighthouse-Scores und Core Web Vitals
+            sind keine Nebensache, sondern Teil des Qualitätsanspruchs.
+          </p>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Zugänglichkeit</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Barrierefreiheit ist kein Add-on, sondern Teil des Designs. Semantisches HTML, klare Strukturen
+            und WCAG-orientierte Umsetzung gehören zum Standard.
+          </p>
+        </div>
+        <div class="rounded-lg bg-white/5 border border-white/10 p-6">
+          <h4 class="text-xl font-semibold">Transparenz</h4>
+          <p class="mt-2 text-white/90 text-sm">
+            Klare Kommunikation, nachvollziehbare Prozesse und dokumentierte Entscheidungen. Sie wissen
+            jederzeit, wo Ihr Projekt steht.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="w-full py-16 md:py-24 bg-black text-white text-center">
+    <div class="mx-auto w-[75vw]">
+      <h3 class="text-2xl lg:text-4xl font-bold font-display tracking-wider">
+        Bereit für Ihr nächstes Projekt?
+      </h3>
+      <p class="mt-4 text-lg text-white/90">
+        Lassen Sie uns gemeinsam Ihre Website entwickeln – performant, zugänglich und zukunftssicher.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/#kontakt" class="inline-block rounded bg-white px-6 py-3 text-ink hover:bg-gray-100">
+          Projekt anfragen
+        </a>
+        <a href="/uebermich" class="inline-block rounded border border-white px-6 py-3 hover:bg-white/10">
+          Mehr über mich
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ProfessionalService",
+    "name":"PLS EDV",
+    "alternateName":"Philipp Leser Software EDV",
+    "url":"https://www.pls-edv.de",
+    "email":"mailto:pl@pls-edv.de",
+    "telephone":"+49 4183 7979004",
+    "founder":{
+      "@type":"Person",
+      "name":"Philipp Leser"
+    },
+    "foundingDate":"2001",
+    "areaServed":[
+      "Jesteburg",
+      "Harburg",
+      "Hamburg Süd",
+      "Nordheide",
+      "Landkreis Harburg"
+    ],
+    "serviceType":[
+      "Webdesign",
+      "WordPress",
+      "Divi",
+      "Performance-Optimierung",
+      "Barrierefreiheit",
+      "SEO"
+    ],
+    "knowsAbout":[
+      "WordPress",
+      "Divi",
+      "Astro",
+      "Tailwind CSS",
+      "JavaScript",
+      "Performance",
+      "Accessibility",
+      "SEO"
+    ]
+  }
+  </script>
+</Layout>
+

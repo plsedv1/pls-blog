@@ -1,0 +1,9 @@
+# robots.txt für www.pls-edv.de
+# Erlaubt Suchmaschinen, die gesamte Seite zu crawlen und verweist auf die Sitemap.
+
+User-agent: *
+Allow: /
+
+# Sitemap(s) – für Google & andere Suchmaschinen
+Sitemap: https://www.pls-edv.de/sitemap-index.xml
+Sitemap: https://www.pls-edv.de/sitemap.xml

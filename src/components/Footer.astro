@@ -5,7 +5,7 @@ const site = {
   phone: "+49 4183 7979004",
   url: "https://www.pls-edv.de"
 };
----^
+---
 <footer class="bg-black text-white border-t border-white/10">
   <!-- Main -->
   <div class="mx-auto w-[75vw] py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -85,5 +85,5 @@ const site = {
 
 <script>
   // Copyright-Jahr automatisch setzen
-  (function(){ const el = document.getElementById('ycopy'); if (el) el.textContent = new Date().getFullYear(); })();
+  (function(){ const el = document.getElementById('ycopy'); if (el) el.textContent = String(new Date().getFullYear()); })();
 </script>
